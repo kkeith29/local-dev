@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+date_default_timezone_set('UTC');
+
+const DS = DIRECTORY_SEPARATOR;
+const PATH_ROOT = __DIR__ . DS . '..' . DS . 'cli' . DS;
+const PATH_VENDOR = PATH_ROOT . 'vendor' . DS;
+
+require PATH_VENDOR . 'autoload.php';
+
+use App\Commands\Code\UseFormatterCommand;
+use Dotenv\Dotenv;
+use Symfony\Component\Console\Application;
+
+$env_path = PATH_ROOT;
+$env_file = '.env';
+if (file_exists($env_path . DS . $env_file)) {
+    Dotenv::createImmutable($env_path, $env_file)->load();
+}
+
+$application = new Application();
+
+$application->add(new UseFormatterCommand());
+
+$application->run();

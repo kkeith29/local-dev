@@ -1,0 +1,58 @@
+"" Source your .vimrc
+"source ~/.vimrc
+
+let mapleader = ' '
+
+" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+" Do incremental searching.
+set incsearch
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+set showmode
+set idearefactormode=keep
+set relativenumber
+set number
+set surround
+set commentary
+set NERDTree
+let g:NERDTreeMapActivateNode='l'
+let g:NERDTreeMapJumpParent='h'
+
+set iskeyword+=$
+
+" system clipboard
+vmap <leader>y "+y
+vmap <leader>d "+d
+nmap <leader>y "+yy
+nmap <leader>p "+p
+nmap <leader>P "+P
+vmap <leader>p "+p
+vmap <leader>P "+P
+
+nnoremap <leader>p :NERDTreeFind<CR>
+nnoremap <leader>fs :action FileStructurePopup<CR>
+nnoremap <leader>db :action ToggleLineBreakpoint<CR>
+vnoremap <leader>cu :!ld-cli code:use-formatter<CR>
+nnoremap gs :action FindInPath<CR>
+nnoremap go :action GotoFile<CR>
+nnoremap gr :action ReplaceInPath<CR>
+nnoremap gf :action FindUsages<CR>
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gb :action Back<CR>
+nnoremap gB :action Forward<CR>
+nnoremap / :action Find<CR>
+nnoremap g/ /
+nnoremap U <C-r>
+nnoremap H ^
+vnoremap H ^
+nnoremap L $
+vnoremap L $
+nnoremap d "_d
+vnoremap d "_d
+nnoremap x "_x
