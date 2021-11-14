@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Services\UseFormatter\Exceptions\{InvalidStatementException, NoStatementsFoundException};
+use ArrayIterator;
 
 use function Core\Functions\env;
 
@@ -200,6 +201,26 @@ class UseFormatterService
             unset($statements[$namespace]);
         }
         ksort($statements);
+        // group single classes into non bracketed use statements
+        $items = [];
+        $singles = [];
+        $iterator = new ArrayIterator($statements);
+        while ($iterator->valid()) {
+            $namespace = $iterator->key();
+            $names = $iterator->current();
+            $iterator->next();
+            $has_classes = is_array($names);
+            if (!$has_classes) {
+                $singles[] = $namespace;
+            }
+            if (($has_classes || !$iterator->valid()) && count($singles) > 0) {
+                $items[] = ['names' => $singles];
+                $singles = [];
+            }
+            if ($has_classes) {
+                $items[] = ['namespace' => $namespace, 'names' => $names];
+            }
+        }
         $lines = [];
         $max_line_length ??= (int) env('MAX_LINE_LENGTH', 120);
         $type = match($type) {
@@ -207,13 +228,35 @@ class UseFormatterService
             self::STATEMENT_TYPE_FUNCTION => 'function ',
             default => ''
         };
-        foreach ($statements as $namespace => $names) {
-            if ($names === true) {
-                $lines[] = "use {$type}{$namespace};";
+        foreach ($items as $item) {
+            // if group doesn't have a namespace, then we make a comma separated indented list
+            if (!isset($item['namespace'])) {
+                $line = "use {$type}";
+                $offset = strlen($line);
+                $allowed_length = $max_line_length - $offset;
+                $length = 0;
+                $iterator = new ArrayIterator($item['names']);
+                while ($iterator->valid()) {
+                    $data = $iterator->current();
+                    $iterator->next();
+                    if ($iterator->valid()) {
+                        $data .= ', ';
+                    }
+                    $data_length = strlen($data);
+                    $fits = $length + $data_length <= $allowed_length;
+                    if (!$fits) {
+                        $line .= PHP_EOL . str_repeat(' ', $offset);
+                        $length = 0;
+                    }
+                    $line .= $data;
+                    $length += $data_length;
+                }
+                $lines[] = $line . ';';
                 continue;
             }
+            $names = $item['names'];
             sort($names);
-            $prefix = "use {$type}{$namespace}\\{";
+            $prefix = "use {$type}{$item['namespace']}\\{";
             $length = strlen($prefix);
             $length += array_reduce($names, fn(int $length, string $name): int => $length + strlen($name), 0);
             $length += (count($names) - 1) * 2; // separators between names
@@ -225,6 +268,22 @@ class UseFormatterService
             $lines[] = $prefix . implode(', ', $names) . '};';
         }
         return implode(PHP_EOL, $lines);
+    }
+
+    /**
+     * Expand statement into multiple statements if comma is found
+     *
+     * @param array $statements
+     * @param string $statement
+     * @param string $prefix
+     * @return void
+     */
+    protected function expandStatements(array &$statements, string $statement, string $prefix = ''): void
+    {
+        foreach (explode(',', $statement) as $item) {
+            $item = trim($item);
+            $this->addStatement($statements, $prefix . $item);
+        }
     }
 
     /**
@@ -265,13 +324,11 @@ class UseFormatterService
                 if (!str_ends_with($statement, '}')) {
                     throw new InvalidStatementException('Invalid bracket usage');
                 }
-                $prefix = trim(substr($statement, 0, $bpos - 1));
-                foreach (explode(',', substr($statement, $bpos + 1, (strlen($statement) - $bpos - 2))) as $item) {
-                    $item = trim($item);
-                    $this->addStatement($statements[$type], "{$prefix}\\{$item}");
-                }
+                $prefix = trim(substr($statement, 0, $bpos - 1)) . '\\';
+                $statement = substr($statement, $bpos + 1, (strlen($statement) - $bpos - 2));
+                $this->expandStatements($statements[$type], $statement, $prefix);
             } else {
-                $this->addStatement($statements[$type], $statement);
+                $this->expandStatements($statements[$type], $statement);
             }
             $content = substr($content, $pos + 1);
         }
