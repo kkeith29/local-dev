@@ -210,15 +210,18 @@ class UseFormatterService
             $names = $iterator->current();
             $iterator->next();
             $has_classes = is_array($names);
-            if (!$has_classes) {
+            $is_long = substr_count($namespace, '\\') > 1;
+            if (!$has_classes && !$is_long) {
                 $singles[] = $namespace;
             }
-            if (($has_classes || !$iterator->valid()) && count($singles) > 0) {
+            if (($has_classes || $is_long || !$iterator->valid()) && count($singles) > 0) {
                 $items[] = ['names' => $singles];
                 $singles = [];
             }
             if ($has_classes) {
                 $items[] = ['namespace' => $namespace, 'names' => $names];
+            } elseif ($is_long) {
+                $items[] = ['class' => $namespace];
             }
         }
         $lines = [];
@@ -232,6 +235,10 @@ class UseFormatterService
             // if group doesn't have a namespace, then we make a comma separated indented list
             if (!isset($item['namespace'])) {
                 $line = "use {$type}";
+                if (isset($item['class'])) {
+                    $lines[] = "{$line}{$item['class']};";
+                    continue;
+                }
                 $offset = strlen($line);
                 $allowed_length = $max_line_length - $offset;
                 $length = 0;
