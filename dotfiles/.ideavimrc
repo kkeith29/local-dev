@@ -1,30 +1,65 @@
-"" Source your .vimrc
-"source ~/.vimrc
-
-let mapleader = ' '
-
-" -- Suggested options --
-" Show a few lines of context around the cursor. Note that this makes the
-" text scroll if you mouse-click near the start or end of the window.
-set scrolloff=5
-
-" Do incremental searching.
+set scrolloff=8
+set sidescrolloff=8
 set incsearch
-
-" Don't use Ex mode, use Q for formatting.
-map Q gq
-
 set showmode
 set idearefactormode=keep
 set relativenumber
 set number
 set surround
 set commentary
+set visualbell
+set noerrorbells
+set iskeyword+=$
+
+" NERDTree settings
 set NERDTree
 let g:NERDTreeMapActivateNode='l'
 let g:NERDTreeMapJumpParent='h'
 
-set iskeyword+=$
+""" key mappings
+let mapleader = ' '
+
+" easy control over ideavimrc file
+nnoremap \e :e ~/.ideavimrc<CR>
+nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
+
+" global bindings
+map Q gq
+nnoremap U <C-r>
+nnoremap H ^
+vnoremap H ^
+nnoremap L $
+vnoremap L $
+
+" update deletes to not change buffer
+nnoremap d "_d
+vnoremap d "_d
+
+" update cut in normal mode to not change buffer
+nnoremap x "_x
+
+" make Y behave like other capitals
+nnoremap Y y$
+
+" quick escape to normal mode
+imap jj <Esc>
+
+" easy insert of trailing ; and , from insert mode
+imap ;; <Esc>A;<Esc>
+imap ,, <Esc>A,<Esc>
+
+" highlight selection again after ident
+vnoremap < <gv
+vnoremap > >gv
+
+" maintain cursor position when yanking a visual selection
+vnoremap y myy`y
+vnoremap Y myY`y
+
+" keep it centered
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap J mzJ`z
 
 " system clipboard
 vmap <leader>y "+y
@@ -35,24 +70,81 @@ nmap <leader>P "+P
 vmap <leader>p "+p
 vmap <leader>P "+P
 
-nnoremap <leader>p :NERDTreeFind<CR>
+""" tool navigation (prefix w = window)
+nnoremap <leader>wp :action ActivateProjectToolWindow<CR>
+nnoremap <leader>wt :action ActivateTerminalToolWindow<CR>
+nnoremap <leader>wd :action ActivateDebugToolWindow<CR>
+nnoremap <leader>we :action ActivateEventLogToolWindow<CR>
+nnoremap <leader>wq :action HideAllWindows<CR>
+
+""" tab management
+nnoremap <leader>q :action CloseAllEditors<CR>
+
+" tab navigation (prefix t = tab)
+nnoremap <TAB> :action NextTab<CR>
+nnoremap <s-TAB> :action PreviousTab<CR>
+
+" tab movements
+nnoremap <leader>th :action MoveTabLeft<CR>
+nnoremap <leader>tj :action MoveTabDown<CR>
+nnoremap <leader>tk :action MoveTabUp<CR>
+nnoremap <leader>tl :action MoveTabRight<CR>
+nnoremap <leader>tm :action MoveEditorToOppositeTabGroup<CR>
+
+" tab closing
+nnoremap <leader>tq :action CloseContent<CR>
+nnoremap <leader>tQ :action CloseAllEditorsButActive<CR>
+
+" tab pane splitting
+nnoremap <c-\> :action SplitVertically<CR>
+nnoremap <c--> :action SplitHorizontally<CR>
+nnoremap <c-=> :action Unsplit<CR>
+
+" tab pane movements
+sethandler <c-j> a:vim
+sethandler <c-k> a:vim
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+
+""" file navigation and management (prefix f = file)
+nnoremap <leader>ff :NERDTreeFind<CR>
+nnoremap <leader>fr :action RenameFile<CR>
 nnoremap <leader>fs :action FileStructurePopup<CR>
-nnoremap <leader>db :action ToggleLineBreakpoint<CR>
-vnoremap <leader>cu :!ld-cli code:use-formatter<CR>
-nnoremap gs :action FindInPath<CR>
+
+""" editor actions (prefix e = editor)
+nnoremap <leader>ea :action ShowIntentionActions<CR>
+nnoremap <leader>ew :write<CR>
+nnoremap <leader>ef :action Find<CR>
+nnoremap <leader>er :action Replace<CR>
+
+""" code navigation (prefix g = go)
+nnoremap [[ :action MethodUp<CR>
+nnoremap ]] :action MethodDown<CR>
 nnoremap go :action GotoFile<CR>
-nnoremap gr :action ReplaceInPath<CR>
-nnoremap gf :action FindUsages<CR>
+nnoremap gu :action FindUsages<CR>
 nnoremap gd :action GotoDeclaration<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gp :action GotoSuperMethod<CR>
+nnoremap ge :action GotoNextError<CR>
+nnoremap gE :action GotoPreviousError<CR>
 nnoremap gb :action Back<CR>
-nnoremap gB :action Forward<CR>
-nnoremap / :action Find<CR>
-nnoremap g/ /
-nnoremap U <C-r>
-nnoremap H ^
-vnoremap H ^
-nnoremap L $
-vnoremap L $
-nnoremap d "_d
-vnoremap d "_d
-nnoremap x "_x
+nnoremap gf :action Forward<CR>
+nnoremap gs :action Switcher<CR>
+
+""" code editing (prefix c = code)
+nnoremap <leader>cc :action CommentByLineComment<CR>
+vnoremap <leader>cc :action CommentByLineComment<CR>
+
+""" code refactoring (prefix r = refactor)
+nnoremap <leader>rm :action Move<CR>
+nnoremap <leader>rr :action RenameElement<CR>
+vnoremap <leader>ru :!ld-cli code:use-formatter<CR>
+
+""" code debugging (prefix d = debug)
+nnoremap <leader>db :action ToggleLineBreakpoint<CR>
+
+""" searching (prefix g = global)
+nnoremap g/ :action FindInPath<CR>
+nnoremap gr :action ReplaceInPath<CR>
