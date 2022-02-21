@@ -11,9 +11,9 @@ use Closure;
  *
  * @param string $key
  * @param mixed $default
- * @return bool|string|null
+ * @return mixed
  */
-function env(string $key, mixed $default = null): bool|string|null {
+function env(string $key, mixed $default = null): mixed {
     $value = $_ENV[$key] ?? null;
 
     if ($value === null) {
