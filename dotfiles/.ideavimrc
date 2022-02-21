@@ -41,13 +41,6 @@ nnoremap x "_x
 " make Y behave like other capitals
 nnoremap Y y$
 
-" quick escape to normal mode
-imap jj <Esc>
-
-" easy insert of trailing ; and , from insert mode
-imap ;; <Esc>A;<Esc>
-imap ,, <Esc>A,<Esc>
-
 " highlight selection again after ident
 vnoremap < <gv
 vnoremap > >gv
@@ -75,6 +68,7 @@ nnoremap <leader>wp :action ActivateProjectToolWindow<CR>
 nnoremap <leader>wt :action ActivateTerminalToolWindow<CR>
 nnoremap <leader>wd :action ActivateDebugToolWindow<CR>
 nnoremap <leader>we :action ActivateEventLogToolWindow<CR>
+nnoremap <leader>wf :action ActivateFindToolWindow<CR>
 nnoremap <leader>wq :action HideAllWindows<CR>
 
 """ tab management
@@ -116,8 +110,8 @@ nnoremap <leader>fs :action FileStructurePopup<CR>
 """ editor actions (prefix e = editor)
 nnoremap <leader>ea :action ShowIntentionActions<CR>
 nnoremap <leader>ew :write<CR>
-nnoremap <leader>ef :action Find<CR>
-nnoremap <leader>er :action Replace<CR>
+nnoremap <leader>ef :action ToggleFullScreen<CR>
+nnoremap <leader>ep :action TogglePresentationMode<CR>
 
 """ code navigation (prefix g = go)
 nnoremap [[ :action MethodUp<CR>
@@ -129,6 +123,7 @@ nnoremap gi :action GotoImplementation<CR>
 nnoremap gp :action GotoSuperMethod<CR>
 nnoremap ge :action GotoNextError<CR>
 nnoremap gE :action GotoPreviousError<CR>
+nnoremap gt :action GotoTest<CR>
 nnoremap gb :action Back<CR>
 nnoremap gf :action Forward<CR>
 nnoremap gs :action Switcher<CR>
