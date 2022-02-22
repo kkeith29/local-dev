@@ -145,66 +145,18 @@
       "verbose": "Transparent"
     },
     {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
+      "keyCode": 53857,
+      "label": "windo",
+      "extraLabel": "MACRO"
     },
     {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
+      "keyCode": 53852,
+      "label": "windo",
+      "extraLabel": "MACRO"
     },
     {
       "keyCode": 53856,
-      "label": "phpst",
-      "extraLabel": "MACRO"
-    },
-    {
-      "keyCode": 53858,
-      "label": "phpst",
-      "extraLabel": "MACRO"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 53855,
-      "label": "phpst",
+      "label": "windo",
       "extraLabel": "MACRO"
     },
     {
@@ -242,20 +194,15 @@
       "label": "",
       "extraLabel": "TRANS",
       "verbose": "Transparent"
-    },
-    {
-      "keyCode": 53860,
-      "label": "phpst",
-      "extraLabel": "MACRO"
     },
     {
       "keyCode": 53859,
-      "label": "phpst",
+      "label": "windo",
       "extraLabel": "MACRO"
     },
     {
-      "keyCode": 53854,
-      "label": "phpst",
+      "keyCode": 53860,
+      "label": "windo",
       "extraLabel": "MACRO"
     },
     {
@@ -277,81 +224,10 @@
       "verbose": "Transparent"
     },
     {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 65535,
-      "label": "",
-      "extraLabel": "TRANS",
-      "verbose": "Transparent"
-    },
-    {
-      "keyCode": 53857,
-      "label": "phpst",
-      "extraLabel": "MACRO"
+      "keyCode": 0,
+      "label": "KEY",
+      "extraLabel": "NO",
+      "verbose": "Disabled"
     },
     {
       "keyCode": 65535,
@@ -361,7 +237,17 @@
     },
     {
       "keyCode": 53853,
-      "label": "phpst",
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 53855,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 53854,
+      "label": "windo",
       "extraLabel": "MACRO"
     },
     {
@@ -393,6 +279,112 @@
       "label": "",
       "extraLabel": "TRANS",
       "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 53861,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 53862,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 53866,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 53863,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 53864,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 53865,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 53867,
+      "label": "windo",
+      "extraLabel": "MACRO"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 65535,
+      "label": "",
+      "extraLabel": "TRANS",
+      "verbose": "Transparent"
+    },
+    {
+      "keyCode": 53858,
+      "label": "windo",
+      "extraLabel": "MACRO"
     },
     {
       "keyCode": 65535,
@@ -524,32 +516,58 @@
     15,
     15,
     15,
-    15,
-    15,
-    15,
     5,
-    0,
-    15,
-    15,
-    11,
-    11,
+    8,
     5,
+    15,
+    15,
+    15,
+    8,
+    8,
+    8,
+    15,
+    15,
+    15,
+    15,
+    3,
+    2,
+    2,
+    2,
+    3,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    15,
+    12,
+    15,
+    15,
+    15,
+    1,
+    1,
     15,
     15,
     15,
     15,
     15,
     1,
-    15,
-    5,
-    15,
+    1,
     15,
     15,
     15,
     15,
     15,
     15,
-    15,
+    0,
     15,
     15,
     15,
@@ -557,33 +575,7 @@
     15,
     15,
     15,
-    15,
-    15,
-    15,
-    5,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
-    15,
+    12,
     15,
     8,
     8,

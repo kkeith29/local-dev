@@ -339,10 +339,9 @@
       "verbose": "Left Option"
     },
     {
-      "keyCode": 0,
-      "label": "KEY",
-      "extraLabel": "NO",
-      "verbose": "Disabled"
+      "keyCode": 17493,
+      "label": "2",
+      "extraLabel": "LOCK"
     },
     {
       "keyCode": 227,
@@ -442,7 +441,7 @@
     0,
     0,
     0,
-    12,
+    5,
     1,
     0,
     5,
