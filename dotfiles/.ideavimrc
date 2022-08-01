@@ -67,8 +67,9 @@ vmap <leader>P "+P
 nnoremap <leader>wp :action ActivateProjectToolWindow<CR>
 nnoremap <leader>wt :action ActivateTerminalToolWindow<CR>
 nnoremap <leader>wd :action ActivateDebugToolWindow<CR>
-nnoremap <leader>we :action ActivateEventLogToolWindow<CR>
+nnoremap <leader>wn :action ActivateNotificationsToolWindow<CR>
 nnoremap <leader>wf :action ActivateFindToolWindow<CR>
+nnoremap <leader>wr :action ActivateRunToolWindow<CR>
 nnoremap <leader>wq :action HideAllWindows<CR>
 
 """ tab management
@@ -128,17 +129,31 @@ nnoremap gb :action Back<CR>
 nnoremap gf :action Forward<CR>
 nnoremap gs :action Switcher<CR>
 
-""" code editing (prefix c = code)
+""" code editing/refactoring (prefix c = code)
 nnoremap <leader>cc :action CommentByLineComment<CR>
 vnoremap <leader>cc :action CommentByLineComment<CR>
+nnoremap <leader>cm :action Move<CR>
+nnoremap <leader>cr :action RenameElement<CR>
+vnoremap <leader>cu :!ld-cli code:use-formatter<CR>
 
-""" code refactoring (prefix r = refactor)
-nnoremap <leader>rm :action Move<CR>
-nnoremap <leader>rr :action RenameElement<CR>
-vnoremap <leader>ru :!ld-cli code:use-formatter<CR>
+""" code running and debugging (prefix r = run)
+nnoremap <leader>rc :action ContextRun<CR>
+nnoremap <leader>rr :action Rerun<CR>
+nnoremap <leader>rf :action RerunFailedTests<CR>
+nnoremap <leader>rd :action ContextDebug<CR>
+nnoremap <leader>rm :action ChooseRunConfiguration<CR>
 
 """ code debugging (prefix d = debug)
 nnoremap <leader>db :action ToggleLineBreakpoint<CR>
+nnoremap <leader>dr :action Resume<CR>
+nnoremap <leader>dm :action XDebugger.MuteBreakpoints<CR>
+nnoremap <leader>so :action StepOver<CR>
+nnoremap <leader>si :action StepInto<CR>
+nnoremap <leader>sI :action StepOut<CR>
+nnoremap <leader>sf :action ForceStepIn<CR>
+
+""" version control
+nnoremap <leader>va :action Git.Add<CR>
 
 """ searching (prefix g = global)
 nnoremap g/ :action FindInPath<CR>
