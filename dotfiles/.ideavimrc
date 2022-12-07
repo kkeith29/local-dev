@@ -21,7 +21,7 @@ let mapleader = ' '
 
 " easy control over ideavimrc file
 nnoremap \e :e ~/.ideavimrc<CR>
-nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
+nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
 
 " global bindings
 map Q gq
@@ -55,45 +55,45 @@ nnoremap N Nzz
 nnoremap J mzJ`z
 
 " system clipboard
-vmap <leader>y "+y
-vmap <leader>d "+d
-nmap <leader>y "+yy
-nmap <leader>p "+p
-nmap <leader>P "+P
-vmap <leader>p "+p
-vmap <leader>P "+P
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>y "+yy
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
 
 """ tool navigation (prefix w = window)
-nnoremap <leader>wp :action ActivateProjectToolWindow<CR>
-nnoremap <leader>wt :action ActivateTerminalToolWindow<CR>
-nnoremap <leader>wd :action ActivateDebugToolWindow<CR>
-nnoremap <leader>wn :action ActivateNotificationsToolWindow<CR>
-nnoremap <leader>wf :action ActivateFindToolWindow<CR>
-nnoremap <leader>wr :action ActivateRunToolWindow<CR>
-nnoremap <leader>wq :action HideAllWindows<CR>
+nmap <Leader>wp <Action>(ActivateProjectToolWindow)
+nmap <Leader>wt <Action>(ActivateTerminalToolWindow)
+nmap <Leader>wd <Action>(ActivateDebugToolWindow)
+nmap <Leader>wn <Action>(ActivateNotificationsToolWindow)
+nmap <Leader>wf <Action>(ActivateFindToolWindow)
+nmap <Leader>wr <Action>(ActivateRunToolWindow)
+nmap <Leader>wq <Action>(HideAllWindows)
 
 """ tab management
-nnoremap <leader>q :action CloseAllEditors<CR>
+nmap <Leader>q <Action>(CloseAllEditors)
 
 " tab navigation (prefix t = tab)
-nnoremap <TAB> :action NextTab<CR>
-nnoremap <s-TAB> :action PreviousTab<CR>
+nmap <TAB> <Action>(NextTab)
+nmap <s-TAB> <Action>(PreviousTab)
 
 " tab movements
-nnoremap <leader>th :action MoveTabLeft<CR>
-nnoremap <leader>tj :action MoveTabDown<CR>
-nnoremap <leader>tk :action MoveTabUp<CR>
-nnoremap <leader>tl :action MoveTabRight<CR>
-nnoremap <leader>tm :action MoveEditorToOppositeTabGroup<CR>
+nmap <Leader>th <Action>(MoveTabLeft)
+nmap <Leader>tj <Action>(MoveTabDown)
+nmap <Leader>tk <Action>(MoveTabUp)
+nmap <Leader>tl <Action>(MoveTabRight)
+nmap <Leader>tm <Action>(MoveEditorToOppositeTabGroup)
 
 " tab closing
-nnoremap <leader>tq :action CloseContent<CR>
-nnoremap <leader>tQ :action CloseAllEditorsButActive<CR>
+nmap <Leader>tq <Action>(CloseContent)
+nmap <Leader>tQ <Action>(CloseAllEditorsButActive)
 
 " tab pane splitting
-nnoremap <c-\> :action SplitVertically<CR>
-nnoremap <c--> :action SplitHorizontally<CR>
-nnoremap <c-=> :action Unsplit<CR>
+nmap <c-\> <Action>(SplitVertically)
+nmap <c--> <Action>(SplitHorizontally)
+nmap <c-=> <Action>(Unsplit)
 
 " tab pane movements
 sethandler <c-j> a:vim
@@ -104,57 +104,57 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 
 """ file navigation and management (prefix f = file)
-nnoremap <leader>ff :NERDTreeFind<CR>
-nnoremap <leader>fr :action RenameFile<CR>
-nnoremap <leader>fs :action FileStructurePopup<CR>
+nmap <Leader>ff :NERDTreeFind<CR>
+nmap <Leader>fr <Action>(RenameFile)
+nmap <Leader>fs <Action>(FileStructurePopup)
 
 """ editor actions (prefix e = editor)
-nnoremap <leader>ea :action ShowIntentionActions<CR>
-nnoremap <leader>ew :write<CR>
-nnoremap <leader>ef :action ToggleFullScreen<CR>
-nnoremap <leader>ep :action TogglePresentationMode<CR>
+nmap <Leader>ea <Action>(ShowIntentionActions)
+nnoremap <Leader>ew :write<CR>
+nmap <Leader>ef <Action>(ToggleFullScreen)
+nmap <Leader>ep <Action>(TogglePresentationMode)
 
 """ code navigation (prefix g = go)
-nnoremap [[ :action MethodUp<CR>
-nnoremap ]] :action MethodDown<CR>
-nnoremap go :action GotoFile<CR>
-nnoremap gu :action FindUsages<CR>
-nnoremap gd :action GotoDeclaration<CR>
-nnoremap gi :action GotoImplementation<CR>
-nnoremap gp :action GotoSuperMethod<CR>
-nnoremap ge :action GotoNextError<CR>
-nnoremap gE :action GotoPreviousError<CR>
-nnoremap gt :action GotoTest<CR>
-nnoremap gb :action Back<CR>
-nnoremap gf :action Forward<CR>
-nnoremap gs :action Switcher<CR>
+nmap [[ <Action>(MethodUp)
+nmap ]] <Action>(MethodDown)
+nmap go <Action>(GotoFile)
+nmap gu <Action>(FindUsages)
+nmap gd <Action>(GotoDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap gp <Action>(GotoSuperMethod)
+nmap ge <Action>(GotoNextError)
+nmap gE <Action>(GotoPreviousError)
+nmap gt <Action>(GotoTest)
+nmap gb <Action>(Back)
+nmap gf <Action>(Forward)
+nmap gs <Action>(Switcher)
 
 """ code editing/refactoring (prefix c = code)
-nnoremap <leader>cc :action CommentByLineComment<CR>
-vnoremap <leader>cc :action CommentByLineComment<CR>
-nnoremap <leader>cm :action Move<CR>
-nnoremap <leader>cr :action RenameElement<CR>
-vnoremap <leader>cu :!ld-cli code:use-formatter<CR>
+nmap <Leader>cc <Action>(CommentByLineComment)
+vmap <Leader>cc <Action>(CommentByLineComment)
+nmap <Leader>cm <Action>(Move)
+nmap <Leader>cr <Action>(RenameElement)
+vmap <Leader>cu :!ld-cli code:use-formatter<CR>
 
 """ code running and debugging (prefix r = run)
-nnoremap <leader>rc :action ContextRun<CR>
-nnoremap <leader>rr :action Rerun<CR>
-nnoremap <leader>rf :action RerunFailedTests<CR>
-nnoremap <leader>rd :action ContextDebug<CR>
-nnoremap <leader>rm :action ChooseRunConfiguration<CR>
+nmap <Leader>rc <Action>(ContextRun)
+nmap <Leader>rr <Action>(Rerun)
+nmap <Leader>rf <Action>(RerunFailedTests)
+nmap <Leader>rd <Action>(ContextDebug)
+nmap <Leader>rm <Action>(ChooseRunConfiguration)
 
 """ code debugging (prefix d = debug)
-nnoremap <leader>db :action ToggleLineBreakpoint<CR>
-nnoremap <leader>dr :action Resume<CR>
-nnoremap <leader>dm :action XDebugger.MuteBreakpoints<CR>
-nnoremap <leader>so :action StepOver<CR>
-nnoremap <leader>si :action StepInto<CR>
-nnoremap <leader>sI :action StepOut<CR>
-nnoremap <leader>sf :action ForceStepIn<CR>
+nmap <Leader>db <Action>(ToggleLineBreakpoint)
+nmap <Leader>dr <Action>(Resume)
+nmap <Leader>dm <Action>(XDebugger.MuteBreakpoints)
+nmap <Leader>so <Action>(StepOver)
+nmap <Leader>si <Action>(StepInto)
+nmap <Leader>sI <Action>(StepOut)
+nmap <Leader>sf <Action>(ForceStepIn)
 
 """ version control
-nnoremap <leader>va :action Git.Add<CR>
+nmap <Leader>va <Action>(Git.Add)
 
 """ searching (prefix g = global)
-nnoremap g/ :action FindInPath<CR>
-nnoremap gr :action ReplaceInPath<CR>
+nmap g/ <Action>(FindInPath)
+nmap gr <Action>(ReplaceInPath)
