@@ -7,14 +7,21 @@ set relativenumber
 set number
 set surround
 set commentary
+set textobj-entire
+set ReplaceWithRegister
 set visualbell
 set noerrorbells
 set iskeyword+=$
+set ideajoin
 
 " NERDTree settings
 set NERDTree
 let g:NERDTreeMapActivateNode='l'
 let g:NERDTreeMapJumpParent='h'
+
+" argtextobj settings
+set argtextobj
+let g:argtextobj_pairs="[:],(:),<:>"
 
 """ key mappings
 let mapleader = ' '
@@ -22,6 +29,9 @@ let mapleader = ' '
 " easy control over ideavimrc file
 nnoremap \e :e ~/.ideavimrc<CR>
 nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
+
+" easymotion (must be after mapleader to change leader)
+set easymotion
 
 " global bindings
 map Q gq
@@ -31,12 +41,14 @@ vnoremap H ^
 nnoremap L $
 vnoremap L $
 
-" update deletes to not change buffer
+" update actions to not change buffer
+nnoremap c "_c
+vnoremap c "_c
+nnoremap x "_x
 nnoremap d "_d
 vnoremap d "_d
-
-" update cut in normal mode to not change buffer
-nnoremap x "_x
+nnoremap D "_D
+vnoremap D "_D
 
 " make Y behave like other capitals
 nnoremap Y y$
