@@ -36,7 +36,8 @@ mkdir ~/.bin
 
 ### Add bin to PATH variable in .zshrc
 ```bash
-export PATH = $PATH:~/.bin
+path+=('/path/to/.bin')
+export PATH
 ```
 
 ### Install [Composer](https://getcomposer.org/download/)
@@ -55,6 +56,12 @@ ln -s /path/to/local-dev/bin/ld-cli ~/.bin/ld-cli
 ### Symlink dotfiles
 ```bash
 ln -s /path/to/local-dev/dotfiles/.ideavimrc ~/.ideavimrc
+```
+
+### Run Brewfile
+```bash
+ln -s /path/to/local-dev/configs/Brewfile ~/Brewfile
+brew bundle install
 ```
 
 ## Usage
