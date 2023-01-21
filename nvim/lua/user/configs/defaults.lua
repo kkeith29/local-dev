@@ -10,6 +10,7 @@ function M.options()
     vim.o.shiftwidth = 4
     vim.o.expandtab = true
     vim.o.autoindent = true
+    vim.o.smartindent = true
 
     -- Set color column
     vim.o.cc = '120'
@@ -96,8 +97,6 @@ function M.keymaps()
     -- Update visual mode ident/dedent
     km.vnoremap('<', '<gv', 'Deident and reselect')
     km.vnoremap('>', '>gv', 'Indent and reselect')
-    km.vnoremap('<Tab>', '>gv', 'Indent and reselect')
-    km.vnoremap('<S-Tab>', '<gv', 'Dedent and reselect')
 
     -- Maintain cursor position when yanking a visual selection
     km.vnoremap('y', 'myy`y', 'Yank text and maintain cursor position')
@@ -121,8 +120,8 @@ function M.keymaps()
     km.nnoremap('<leader>x', ':write<cr>:Bdelete<cr>', 'Write and delete buffer without closing window', opts)
     km.nnoremap('<leader>q', ':Bdelete!<cr>', 'Forcefully [q]uit buffer without closing window', opts)
     km.nnoremap('<leader>Q', ':bufdo bdelete!<cr>', 'Forcefully [Q]uit all buffers without closing window', opts)
-    km.nnoremap('<Tab>', ':bnext<cr>', 'Go to next buffer', opts)
-    km.nnoremap('<S-Tab>', ':bprevious<cr>', 'Go to previous buffer', opts)
+    km.nnoremap('<C-l>', ':bnext<cr>', 'Go to next buffer', opts)
+    km.nnoremap('<C-h>', ':bprevious<cr>', 'Go to previous buffer', opts)
 
     -- Navigation mappings [g = go]
     km.nnoremap('gb', '<C-o>', '[G]o [B]ack')
@@ -138,10 +137,8 @@ function M.keymaps()
     km.nnoremap('<leader>fp', telescope.oldfiles, '[F]ile - Find [P]reviously opened files')
 
     -- Diagnostic keymaps [d = diagnostic]
-    km.nnoremap('<leader>dp', vim.diagnostic.goto_prev, '[D]iagnostic - [P]revious')
-    km.nnoremap('<leader>dn', vim.diagnostic.goto_next, '[D]iagnositc - [N]ext')
-    km.nnoremap('<leader>df', vim.diagnostic.open_float, 'Open [D]iagnostic [F]loat window')
-    km.nnoremap('<leader>dl', vim.diagnostic.setloclist, 'Show [D]iagnostic [L]ist')
+    km.nnoremap('<leader>dj', vim.diagnostic.goto_prev, '[D]iagnostic - [P]revious')
+    km.nnoremap('<leader>dk', vim.diagnostic.goto_next, '[D]iagnositc - [N]ext')
 
     -- [[ Highlight on yank ]]
     -- See `:help vim.highlight.on_yank()`
