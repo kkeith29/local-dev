@@ -6,71 +6,60 @@ function M.install(use)
     use 'theHamsta/nvim-dap-virtual-text'
 end
 
-function M.keymaps()
-    local km = require('user.keymap')
-
-    km.nnoremap('<leader>db', "<cmd>lua require('dap').toggle_breakpoint()<cr>", '[D]ebug - Toggle [B]reakpoint')
-    km.nnoremap('<leader>dc', "<cmd>lua require('dap').continue()<cr>", '[D]ebug - [C]ontinue');
-    km.nnoremap('<leader>dn', "<cmd>lua require('dap').step_over()<cr>", '[D]ebug - [N]ext (Step Over)');
-    km.nnoremap('<leader>di', "<cmd>lua require('dap').step_into()<cr>", '[D]ebug - Step [I]nto');
-    km.nnoremap('<leader>do', "<cmd>lua require('dap').step_out()<cr>", '[D]ebug - Step [O]ut');
-end
-
 function M.configure()
     local dap = require('dap')
     local ui = require('dapui')
 
-    vim.fn.sign_define('DapBreakpoint', {text='', texthl='DapUIBreakpointSign', linehl='', numhl=''})
+    vim.fn.sign_define('DapBreakpoint', {text='', texthl='DapBreakpointSign', linehl='', numhl=''})
+    vim.fn.sign_define('DapBreakpointCondition', {text='', texthl='DapBreakpointConditionalSign', linehl='', numhl=''})
+    vim.fn.sign_define('DapStopped', {text='', texthl='DapStoppedSign', linehl='CursorLine', numhl=''})
 
-    ui.setup()
-    require('nvim-dap-virtual-text').setup({
-        enabled = true
+    ui.setup({
+        floating = {
+            max_width = 0.8,
+            max_height = 0.8
+        },
+        layouts = {
+            {
+                elements = {
+                    'watches', 'scopes'
+                },
+                size = 60,
+                position = 'right'
+            }
+        }
     })
+    require('nvim-dap-virtual-text').setup({})
 
-    local dapui_group = vim.api.nvim_create_augroup('UserDapUI', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('UserDap', { clear = true }),
         command = 'set nobuflisted',
-        group = dapui_group,
         pattern = 'dap-repl'
     })
 
-    local neotree = require('neo-tree')
-    local neotree_open = false
-    local ui_open = false
     local function open_ui()
-        neotree_open = neotree.close('filesystem')
         ui.open({})
-        ui_open = true
     end
     local function close_ui()
-        if not ui_open then
-            return
-        end
         ui.close({})
-        ui_open = false
-        if neotree_open then
-            neotree.show('filesystem')
+    end
+    local vt = require('nvim-dap-virtual-text.virtual_text')
+    local function cleanup()
+        vt.clear_virtual_text()
+    end
+    dap.listeners.after.event_initialized['dapui_config'] = open_ui
+    dap.listeners.before.event_thread['dapui_config'] = function(_, body)
+        if body then
+            if body.reason == 'started' then
+                open_ui()
+            elseif body.reason == 'exited' then
+                close_ui()
+                cleanup()
+            end
         end
     end
-    local function toggle_ui()
-        if ui_open then
-            close_ui()
-        else
-            open_ui()
-        end
-    end
-
-    require('user.keymap').nnoremap('<leader>du', function() toggle_ui() end, '[D]ebug - Toggle [U]I');
-
-    dap.listeners.after.event_initialized['dapui_config'] = function()
-        open_ui()
-    end
-    dap.listeners.before.event_terminated['dapui_config'] = function()
-        close_ui()
-    end
-    dap.listeners.before.event_exited['dapui_config'] = function()
-        close_ui()
-    end
+    dap.listeners.before.event_terminated['dapui_config'] = close_ui
+    dap.listeners.before.event_exited['dapui_config'] = close_ui
 
     dap.adapters.php = {
         type = 'executable',
@@ -85,6 +74,34 @@ function M.configure()
             port = 9003
         }
     }
+end
+
+function M.keymaps()
+    local km = require('user.keymap')
+
+    local dap = require('dap')
+    local telescope = require('telescope')
+    local ui = require('dapui')
+    local vt = require('nvim-dap-virtual-text.virtual_text')
+    -- dj, dk, df, dl in use by diagonistics
+    km.nnoremap('<leader>dbt', dap.toggle_breakpoint, '[D]ebug - Toggle [B]reakpoint', { repeatable = true })
+    km.nnoremap('<leader>dbl', telescope.extensions.dap.list_breakpoints, '[D]ebug - [B]reakpoint [L]ist')
+    km.nnoremap('<leader>dso', dap.step_over, '[D]ebug - [S]tep [O]ver', { repeatable = true })
+    km.nnoremap('<leader>dsi', dap.step_into, '[D]ebug - [S]tep [i]nto', { repeatable = true })
+    km.nnoremap('<leader>dsI', dap.step_out, '[D]ebug - [S]tep Out[I]', { repeatable = true })
+    km.nnoremap('<leader>dc', dap.continue, '[D]ebug - [C]ontinue', { repeatable = true })
+    km.nnoremap('<leader>dut', ui.toggle, '[D]ebug [U]I - Toggle');
+    km.nnoremap('<leader>duf', telescope.extensions.dap.frames, '[D]ebug [U]I - Display [F]rames')
+    km.nnoremap('<leader>dur', function() ui.float_element('repl', { enter = true }) end, '[D]ebug [U]I - Display [R]EPL')
+    km.nnoremap('<leader>duc', function() ui.float_element('console', { enter = true }) end, '[D]ebug [U]I - Display [C]onsole')
+    km.nnoremap('<leader>dt', dap.terminate, '[D]ebug - [T]erminate')
+    km.nnoremap('<leader>dd', function()
+        dap.close()
+        dap.disconnect(nil, function()
+            ui.close({})
+            vt.clear_virtual_text()
+        end)
+    end, '[D]ebug - [D]isconnect')
 end
 
 return M
