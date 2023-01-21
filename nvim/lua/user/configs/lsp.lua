@@ -1,16 +1,42 @@
 local M = {
+    enabled = true,
     priority = 80,
     servers = {
         intelephense = {
             init_options = {
-                licenseKey = os.getenv('HOME') .. '/.intelephense/license.txt'
+                licenceKey = os.getenv('HOME') .. '/.intelephense/license.txt'
+            },
+            settings = {
+                 intelephense = {
+                    phpdoc = {
+                        classTemplate = {
+                            summary = [[$SYMBOL_KIND ${SYMBOL_NAME/^(.+)\\([^\\]+)$/$2/}]],
+                            tags = {
+                                '',
+                                '@package $SYMBOL_NAMESPACE'
+                            }
+                        },
+                        functionTemplate = {
+                            summary = '$1',
+                            tags = {
+                                '',
+                                '@param ${1:$SYMBOL_TYPE} $SYMBOL_NAME',
+                                '@return ${1:$SYMBOL_TYPE}',
+                                '@throws ${1:$SYMBOL_TYPE}'
+                            }
+                        },
+                        useFullyQualifiedNames = true
+                    }
+                }
             }
         },
         sumneko_lua = {
-            Lua = {
-                workspace = { checkThirdParty = false },
-                telemetry = { enable = false }
-            },
+            settings = {
+                Lua = {
+                    workspace = { checkThirdParty = false },
+                    telemetry = { enable = false }
+                }
+            }
         }
     }
 }
@@ -39,8 +65,7 @@ function M.configure()
     -- Also a reminder to RTFM
     require('neodev').setup()
 
-    local saga = require('lspsaga')
-    saga.init_lsp_saga()
+    require('lspsaga').setup({})
 
     -- LSP settings
     local on_attach = function(_, bufnr)
@@ -91,12 +116,11 @@ function M.configure()
 
     mason_lspconfig.setup_handlers {
         function(server_name)
-            require('lspconfig')[server_name].setup {
-                capabilities = capabilities,
-                on_attach = on_attach,
-                settings = M.servers[server_name],
-            }
-        end,
+            local config = M.servers[server_name] or {}
+            config.capabilities = capabilities
+            config.on_attach = on_attach
+            require('lspconfig')[server_name].setup(config)
+        end
     }
 
     -- Turn on lsp status information
