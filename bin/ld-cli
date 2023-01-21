@@ -5,11 +5,12 @@ date_default_timezone_set('UTC');
 
 const DS = DIRECTORY_SEPARATOR;
 const PATH_ROOT = __DIR__ . DS . '..' . DS . 'cli' . DS;
+const PATH_RESOURCE = PATH_ROOT . 'resources' . DS;
 const PATH_VENDOR = PATH_ROOT . 'vendor' . DS;
 
 require PATH_VENDOR . 'autoload.php';
 
-use App\Commands\Code\UseFormatterCommand;
+use App\Commands\Code\{GenerateCommand, UseFormatterCommand};
 use Dotenv\Dotenv;
 use Symfony\Component\Console\Application;
 
@@ -22,5 +23,6 @@ if (file_exists($env_path . DS . $env_file)) {
 $application = new Application();
 
 $application->add(new UseFormatterCommand());
+$application->add(new GenerateCommand());
 
 $application->run();
