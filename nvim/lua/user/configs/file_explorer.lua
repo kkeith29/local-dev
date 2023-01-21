@@ -8,44 +8,44 @@ function M.install(use)
         branch = 'v2.x',
         requires = {
             'nvim-lua/plenary.nvim',
-            'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
-            'MunifTanjim/nui.nvim',
+            'nvim-tree/nvim-web-devicons',
+            'MunifTanjim/nui.nvim'
         }
     }
 end
 
 function M.configure()
-    vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+    vim.g.neo_tree_remove_legacy_commands = 1
 
     require('neo-tree').setup({
         default_component_configs = {
             git_status = {
                 symbols = {
                     -- Change type
-                    added     = "",
-                    deleted   = "✖",
-                    modified  = "",
-                    renamed   = "",
+                    added     = '',
+                    deleted   = '✖',
+                    modified  = '',
+                    renamed   = '',
                     -- Status type
-                    untracked = "",
-                    ignored   = "",
-                    unstaged  = "",
-                    staged    = "",
-                    conflict  = ""
+                    untracked = '',
+                    ignored   = '',
+                    unstaged  = '',
+                    staged    = '',
+                    conflict  = ''
                 }
             },
             diagnostics = {
                 symbols = {
-                    hint = "",
-                    info = "",
-                    warn = "",
-                    error = ""
+                    hint = '',
+                    info = '',
+                    warn = '',
+                    error = ''
                 },
                 highlights = {
-                    hint = "DiagnosticSignHint",
-                    info = "DiagnosticSignInfo",
-                    warn = "DiagnosticSignWarn",
-                    error = "DiagnosticSignError"
+                    hint = 'DiagnosticSignHint',
+                    info = 'DiagnosticSignInfo',
+                    warn = 'DiagnosticSignWarn',
+                    error = 'DiagnosticSignError'
                 }
             }
         }
