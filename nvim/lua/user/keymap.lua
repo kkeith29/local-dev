@@ -1,18 +1,33 @@
 local M = {}
 
-local function mergeTable(t1, ...)
-    for _, table in ipairs({...}) do
-        for key, value in pairs(table) do
-            t1[key] = value
-        end
+local callback = nil
+
+function M.handle_repeat()
+    if callback then
+        callback()
     end
-    return t1
+end
+
+local function repeatable(cb)
+    return function()
+        vim.go.operatorfunc = "v:lua.require'user.keymap'.handle_repeat"
+        callback = cb;
+        return 'g@l';
+    end
 end
 
 function M.factory(mode, default_opts)
     default_opts = default_opts or {}
     return function(lhs, rhs, desc, opts)
-        opts = mergeTable(opts or {}, default_opts, { desc = desc })
+        opts = vim.tbl_deep_extend('force', opts or {}, default_opts, { desc = desc })
+        if opts.repeatable then
+            if type(rhs) ~= 'function' then
+                error('RHS value must be a function when using repeatable')
+            end
+            rhs = repeatable(rhs)
+            opts.expr = true
+            opts.repeatable = nil
+        end
         vim.keymap.set(mode, lhs, rhs, opts)
     end
 end

@@ -151,6 +151,7 @@ return {
         local packer = require('packer')
         packer.init({
             compile_path = vim.fn.stdpath('data') .. '/site/plugin/packer_compiled.lua',
+            max_jobs = 10,
             display = {
                 open_fn = function()
                     return require('packer.util').float({ border = 'solid' })
@@ -161,9 +162,9 @@ return {
         local config_changed = load()
         local sync = not packer_installed or config_changed
         run_packer(packer, sync, function()
+            configure()
             set_options()
             bind_keymaps()
-            configure()
         end)
 
         if sync then
@@ -174,9 +175,9 @@ return {
             return
         end
 
+        configure()
         set_options()
         bind_keymaps()
-        configure()
 
         -- setup auto command to startup packer if config file changes
         local config_group = vim.api.nvim_create_augroup('UserConfig', { clear = true })
@@ -186,17 +187,17 @@ return {
                 load()
                 run_packer(packer, true, function()
                     local module, name = state.configs[ev.file], get_config_name(ev.file)
+                    if module.configure then
+                        vim.notify(string.format('[%s] Configuring plugins', name))
+                        module.configure()
+                    end
                     if module.options then
-                        print(string.format('[%s] Setting up options', name))
+                        vim.notify(string.format('[%s] Setting up options', name))
                         module.options()
                     end
                     if module.keymaps then
-                        print(string.format('[%s] Binding keymaps', name))
+                        vim.notify(string.format('[%s] Binding keymaps', name))
                         module.keymaps()
-                    end
-                    if module.configure then
-                        print(string.format('[%s] Configuring plugins', name))
-                        module.configure()
                     end
                 end)
             end,
