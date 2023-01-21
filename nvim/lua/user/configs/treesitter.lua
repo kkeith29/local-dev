@@ -1,7 +1,8 @@
 local M = {
     enabled = true,
     languages = {
-        'c', 'cpp', 'go', 'lua', 'rust', 'typescript', 'help', 'vim', 'javascript', 'php'
+        'c', 'cpp', 'go', 'lua', 'rust', 'typescript', 'help', 'vim', 'javascript', 'php', 'comment', 'phpdoc', 
+        'markdown'
     }
 }
 
@@ -12,6 +13,8 @@ function M.install(use)
             pcall(require('nvim-treesitter.install').update { with_sync = true })
         end,
     }
+
+    use 'nvim-treesitter/playground'
 
     use { -- Additional text objects via treesitter
         'nvim-treesitter/nvim-treesitter-textobjects',
@@ -70,6 +73,9 @@ function M.configure()
                 },
             },
         },
+        playground = {
+            enable = true
+        }
     }
 end
 
