@@ -109,6 +109,8 @@ function M.keymaps()
     local neoscroll = require('neoscroll')
     km.nnoremap('<C-j>', function() neoscroll.scroll(0.5, true, 250) end, 'Move down half page')
     km.nnoremap('<C-k>', function() neoscroll.scroll(-0.5, true, 250) end, 'Move up half page')
+    km.inoremap('<C-j>', function() neoscroll.scroll(0.1, false, 100) end, 'Move down 10% of page while in insert mode without moving cursor')
+    km.inoremap('<C-k>', function() neoscroll.scroll(-0.1, false, 100) end, 'Move up 10% of page while in insert mode without moving cursor')
     km.nnoremap('zz', function() neoscroll.zz(250) end, 'Recenter cursor on page')
 
     local zenmode = require('zen-mode')

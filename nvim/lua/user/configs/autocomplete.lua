@@ -19,7 +19,7 @@ function M.configure()
                 luasnip.lsp_expand(args.body)
             end,
         },
-        mapping = cmp.mapping.preset.insert {
+        mapping = {
             ['<C-d>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
             ['<C-s>'] = cmp.mapping.complete({}), -- start completion

@@ -23,16 +23,18 @@ function M.keymaps()
 
     -- Setup Hop
     local hop = require('hop')
-    km.map('<leader>hc', function() hop.hint_char1({ current_line_only = true }) end, '[H]op to [C]har within line - Improved f/F')
+    local map = km.factory({'n', 'x', 'o'})
 
-    km.nnoremap('<leader>hw', function() hop.hint_words() end, '[H]op to any [w]ord in document')
-    km.nnoremap('<leader>hW', function() hop.hint_words({ multi_windows = true }) end, '[H]op to any [W]ord in any window')
+    map('gc', function() hop.hint_char1({ current_line_only = true }) end, '[G]o to [c]har within line')
 
-    km.nnoremap('<leader>hl', function() hop.hint_lines() end, '[H]op to any [l]ine in document')
-    km.nnoremap('<leader>hL', function() hop.hint_lines({ multi_windows = true }) end, '[H]op to any [L]ine in any window')
+    map('gw', function() hop.hint_words() end, '[G]o to any [w]ord in document')
+    map('gW', function() hop.hint_words({ multi_windows = true }) end, '[G]o to any [W]ord in any window')
 
-    km.nnoremap('<leader>hs', function() hop.hint_patterns() end, '[H]op to pattern [s]earch in document')
-    km.nnoremap('<leader>hS', function() hop.hint_patterns({ multi_windows = true }) end, '[H]op to pattern [S]earch in any window')
+    map('gl', function() hop.hint_lines() end, '[G]o to any [l]ine in document')
+    map('gL', function() hop.hint_lines({ multi_windows = true }) end, '[G]o to any [L]ine in any window')
+
+    km.nnoremap('s', function() hop.hint_patterns() end, 'Hop to [s]earch pattern in document')
+    km.nnoremap('S', function() hop.hint_patterns({ multi_windows = true }) end, 'Hop to [S]earch pattern in any window')
 end
 
 return M

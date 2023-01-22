@@ -85,7 +85,7 @@ function M.configure()
 
         -- See `:help K` for why this keymap
         nnoremap('K', '<cmd>Lspsaga hover_doc<cr>', 'Hover Documentation')
-        inoremap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+        inoremap('<C-p>', vim.lsp.buf.signature_help, '[P]aram/Signature Documentation')
 
         nnoremap('<leader>ws', telescope.lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
         nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')

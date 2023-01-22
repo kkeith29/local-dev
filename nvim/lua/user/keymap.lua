@@ -55,4 +55,11 @@ function M.vnoremap(lhs, rhs, desc, opts)
     factory_cache['vnoremap'](lhs, rhs, desc, opts);
 end
 
+function M.inoremap(lhs, rhs, desc, opts)
+    if not factory_cache['inoremap'] then
+        factory_cache['inoremap'] = M.factory('i', { noremap = true })
+    end
+    factory_cache['inoremap'](lhs, rhs, desc, opts);
+end
+
 return M
