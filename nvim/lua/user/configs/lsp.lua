@@ -65,7 +65,11 @@ function M.configure()
     -- Also a reminder to RTFM
     require('neodev').setup()
 
-    require('lspsaga').setup({})
+    require('lspsaga').setup({
+        symbol_in_winbar = {
+            separator = '  '
+        }
+    })
 
     -- LSP settings
     local on_attach = function(_, bufnr)

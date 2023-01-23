@@ -33,6 +33,10 @@ function M.configure()
                     ['<C-d>'] = actions.preview_scrolling_down,
                     ['<CR>'] = actions.select_default
                 }
+            },
+            sorting_strategy = 'ascending',
+            layout_config = {
+                prompt_position = 'top'
             }
         }
     })
