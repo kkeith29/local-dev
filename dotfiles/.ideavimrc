@@ -1,45 +1,77 @@
+""" Non IdeaVim keymaps required
+" <c-h> Left
+" <c-j> Down
+" <c-k> Up
+" <c-l> Right
+" <c-q> Hide Active Tool Window
+
+""" leader key (must be set early for plugins)
+let mapleader = ' '
+
+" plugins
+set surround
+set commentary
+set highlightedyank
+set ReplaceWithRegister
+set NERDTree
+set argtextobj
+set textobj-entire
+set easymotion
+set vim-paragraph-motion
+set exchange
+set ideamarks
+
+" common settings
 set scrolloff=8
 set sidescrolloff=8
 set incsearch
 set showmode
-set idearefactormode=keep
 set relativenumber
 set number
-set surround
-set commentary
-set textobj-entire
-set ReplaceWithRegister
 set visualbell
 set noerrorbells
 set iskeyword+=$
-set ideajoin
 
-" NERDTree settings
-set NERDTree
+" idea settings
+set ideajoin
+set idearefactormode=keep
+
+" plugin settings
 let g:NERDTreeMapActivateNode='l'
 let g:NERDTreeMapJumpParent='h'
 
-" argtextobj settings
-set argtextobj
+let g:EasyMotion_do_mapping = 0
+
 let g:argtextobj_pairs="[:],(:),<:>"
 
+let g:highlightedyank_highlight_duration = 500
+
 """ key mappings
-let mapleader = ' '
 
 " easy control over ideavimrc file
 nnoremap \e :e ~/.ideavimrc<CR>
 nmap \r <Action>(IdeaVim.ReloadVimRc.reload)
 
-" easymotion (must be after mapleader to change leader)
-set easymotion
-
 " global bindings
-map Q gq
+sethandler <c-a> a:vim
+sethandler <c-x> a:vim
+sethandler <c-j> a:vim
+sethandler <c-k> a:vim
 nnoremap U <C-r>
 nnoremap H ^
 vnoremap H ^
 nnoremap L $
 vnoremap L $
+nnoremap Y y$
+nnoremap + <c-a>
+vnoremap + <c-a>
+nnoremap - <c-x>
+vnoremap - <c-x>
+nnoremap <c-j> <c-d>
+nnoremap <c-k> <c-u>
+inoremap <c-j> <Down>
+inoremap <c-k> <Up>
+nmap s <Plug>(easymotion-sn)
 
 " update actions to not change buffer
 nnoremap c "_c
@@ -49,9 +81,6 @@ nnoremap d "_d
 vnoremap d "_d
 nnoremap D "_D
 vnoremap D "_D
-
-" make Y behave like other capitals
-nnoremap Y y$
 
 " highlight selection again after ident
 vnoremap < <gv
@@ -67,71 +96,68 @@ nnoremap N Nzz
 nnoremap J mzJ`z
 
 " system clipboard
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>y "+yy
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-
-""" tool navigation (prefix w = window)
-nmap <Leader>wp <Action>(ActivateProjectToolWindow)
-nmap <Leader>wt <Action>(ActivateTerminalToolWindow)
-nmap <Leader>wd <Action>(ActivateDebugToolWindow)
-nmap <Leader>wn <Action>(ActivateNotificationsToolWindow)
-nmap <Leader>wf <Action>(ActivateFindToolWindow)
-nmap <Leader>wr <Action>(ActivateRunToolWindow)
-nmap <Leader>wq <Action>(HideAllWindows)
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+nnoremap <Leader>y "+yy
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
 
 """ tab management
-nmap <Leader>q <Action>(CloseAllEditors)
+nmap <Leader>q <Action>(CloseEditor)
+nmap <Leader>Q <Action>(CloseAllEditors)
+nmap <Leader>X <Action>(CloseAllEditorsButActive)
+nnoremap <Leader>w :write<CR>
 
-" tab navigation (prefix t = tab)
-nmap <TAB> <Action>(NextTab)
-nmap <s-TAB> <Action>(PreviousTab)
-
-" tab movements
-nmap <Leader>th <Action>(MoveTabLeft)
-nmap <Leader>tj <Action>(MoveTabDown)
-nmap <Leader>tk <Action>(MoveTabUp)
-nmap <Leader>tl <Action>(MoveTabRight)
-nmap <Leader>tm <Action>(MoveEditorToOppositeTabGroup)
-
-" tab closing
-nmap <Leader>tq <Action>(CloseContent)
-nmap <Leader>tQ <Action>(CloseAllEditorsButActive)
+" tab navigation
+sethandler <c-h> a:vim
+sethandler <c-l> a:vim
+nmap <c-h> <Action>(PreviousTab)
+nmap <c-l> <Action>(NextTab)
 
 " tab pane splitting
-nmap <c-\> <Action>(SplitVertically)
-nmap <c--> <Action>(SplitHorizontally)
-nmap <c-=> <Action>(Unsplit)
+sethandler <c-w> a:vim
+nmap <c-w>s <Action>(SplitVertically)
+nmap <c-w>S <Action>(SplitHorizontally)
+nmap <c-w>q <Action>(Unsplit)
 
-" tab pane movements
-sethandler <c-j> a:vim
-sethandler <c-k> a:vim
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
+" tab movements between groups
+nmap <c-w>mh <Action>(MoveTabLeft)
+nmap <c-w>mj <Action>(MoveTabDown)
+nmap <c-w>mk <Action>(MoveTabUp)
+nmap <c-w>ml <Action>(MoveTabRight)
+nmap <c-w>mo <Action>(MoveEditorToOppositeTabGroup)
 
 """ file navigation and management (prefix f = file)
 nmap <Leader>ff :NERDTreeFind<CR>
+nmap <Leader>fe <Action>(ActivateProjectToolWindow)
+nmap <Leader>fp <Action>(RecentFiles)
+nmap <Leader>fo <Action>(GotoFile)
 nmap <Leader>fr <Action>(RenameFile)
-nmap <Leader>fs <Action>(FileStructurePopup)
+nmap <Leader>fs <Action>(FindInPath)
+nmap <Leader>fS <Action>(ReplaceInPath)
+nmap <Leader>fw <Action>(ActivateFindToolWindow)
 
-""" editor actions (prefix e = editor)
-nmap <Leader>ea <Action>(ShowIntentionActions)
-nnoremap <Leader>ew :write<CR>
-nmap <Leader>ef <Action>(ToggleFullScreen)
-nmap <Leader>ep <Action>(TogglePresentationMode)
+""" editor actions
+nmap <Leader>eW <Action>(HideAllWindows)
+nmap <Leader>ed <Action>(ActivateDatabaseToolWindow)
+nmap <Leader>es <Action>(ActivateServicesToolWindow)
+nmap <Leader>el <Action>(JumpToLastWindow)
+nmap <Leader>eq <Action>(Jdbc.OpenConsole.Any)
+nmap <Leader>z <Action>(ToggleDistractionFreeMode)
+
+""" project actions
+nmap <Leader>po <Action>(OpenFile)
+nmap <Leader>pr <Action>(ManageRecentProjects)
 
 """ code navigation (prefix g = go)
 nmap [[ <Action>(MethodUp)
 nmap ]] <Action>(MethodDown)
-nmap go <Action>(GotoFile)
+nmap gw <Plug>(easymotion-bd-wl)
 nmap gu <Action>(FindUsages)
 nmap gd <Action>(GotoDeclaration)
+nmap gl <Plug>(easymotion-bd-jk)
 nmap gi <Action>(GotoImplementation)
 nmap gp <Action>(GotoSuperMethod)
 nmap ge <Action>(GotoNextError)
@@ -142,31 +168,42 @@ nmap gf <Action>(Forward)
 nmap gs <Action>(Switcher)
 
 """ code editing/refactoring (prefix c = code)
+nmap <Leader>ca <Action>(ShowIntentionActions)
 nmap <Leader>cc <Action>(CommentByLineComment)
 vmap <Leader>cc <Action>(CommentByLineComment)
 nmap <Leader>cm <Action>(Move)
 nmap <Leader>cr <Action>(RenameElement)
 vmap <Leader>cu :!ld-cli code:use-formatter<CR>
+nmap <Leader>cs <Action>(FileStructurePopup)
 
-""" code running and debugging (prefix r = run)
-nmap <Leader>rc <Action>(ContextRun)
-nmap <Leader>rr <Action>(Rerun)
-nmap <Leader>rf <Action>(RerunFailedTests)
-nmap <Leader>rd <Action>(ContextDebug)
-nmap <Leader>rm <Action>(ChooseRunConfiguration)
+""" code running and debugging (prefix t = test)
+nmap <Leader>tc <Action>(ContextRun)
+nmap <Leader>tr <Action>(Rerun)
+nmap <Leader>tf <Action>(RerunFailedTests)
+nmap <Leader>td <Action>(ContextDebug)
+nmap <Leader>tm <Action>(ChooseRunConfiguration)
+nmap <Leader>tw <Action>(ActivateRunToolWindow)
 
 """ code debugging (prefix d = debug)
-nmap <Leader>db <Action>(ToggleLineBreakpoint)
-nmap <Leader>dr <Action>(Resume)
+nmap <Leader>dbt <Action>(ToggleLineBreakpoint)
+nmap <Leader>dc <Action>(Resume)
+nmap <Leader>dl <Action>(PhpListenDebugAction)
 nmap <Leader>dm <Action>(XDebugger.MuteBreakpoints)
-nmap <Leader>so <Action>(StepOver)
-nmap <Leader>si <Action>(StepInto)
-nmap <Leader>sI <Action>(StepOut)
-nmap <Leader>sf <Action>(ForceStepIn)
+nmap <Leader>dso <Action>(StepOver)
+nmap <Leader>dsi <Action>(StepInto)
+nmap <Leader>dsI <Action>(StepOut)
+nmap <Leader>dsf <Action>(ForceStepIn)
+nmap <Leader>du <Action>(ActivateDebugToolWindow)
+
+""" code folding
+nmap zc <Action>(CollapseRegion)
+nmap zo <Action>(ExpandRegion)
+nmap zC <Action>(CollapseAllRegions)
+nmap zO <Action>(ExpandAllRegions)
+
+""" run (prefix r = run)
+nmap <Leader>rq <Action>(Console.Jdbc.Execute)
 
 """ version control
 nmap <Leader>va <Action>(Git.Add)
-
-""" searching (prefix g = global)
-nmap g/ <Action>(FindInPath)
-nmap gr <Action>(ReplaceInPath)
+nmap <Leader>vb <Action>(Annotate)
