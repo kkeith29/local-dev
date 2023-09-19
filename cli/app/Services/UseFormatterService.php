@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Services\UseFormatter\Exceptions\{InvalidStatementException, NoStatementsFoundException};
-use ArrayIterator;
+use ArrayIterator, Generator;
 
 use function Core\Functions\env;
 
@@ -14,9 +14,9 @@ use function Core\Functions\env;
  */
 class UseFormatterService
 {
-    const STATEMENT_TYPE_CLASS = 1;
-    const STATEMENT_TYPE_CONST = 2;
-    const STATEMENT_TYPE_FUNCTION = 3;
+    protected const STATEMENT_TYPE_CLASS = 1;
+    protected const STATEMENT_TYPE_CONST = 2;
+    protected const STATEMENT_TYPE_FUNCTION = 3;
 
     /**
      * Add statement parsed from input to global list
@@ -28,9 +28,10 @@ class UseFormatterService
     {
         $parts = explode('\\', $statement);
         $count = count($parts);
+        $last = $count - 1;
         for ($i = 0; $i < $count; $i++) {
             $part = $parts[$i];
-            if ($i === $count - 1) {
+            if ($i === $last) {
                 $pieces = preg_split('@\s+as\s+@', $part, 2);
                 $alias = null;
                 if (count($pieces) === 2) {
@@ -54,7 +55,7 @@ class UseFormatterService
      */
     protected function getDepth(array $config): int
     {
-        $depth = 0;
+        $depth = $config['use'] ? 1 : 0;
         if (isset($config['items'])) {
             $max_depth = 0;
             foreach ($config['items'] as $item_config) {
@@ -96,6 +97,26 @@ class UseFormatterService
     }
 
     /**
+     * Get all items which are at the end of their branch
+     *
+     * @param array $statements
+     * @param array $parents
+     * @return \Generator
+     */
+    protected function getItems(array $statements, array $parents = []): Generator
+    {
+        foreach ($statements as $name => $config) {
+            if ($config['use'] || $config['depth'] === 0) {
+                $config['parents'] = $parents;
+                yield $config;
+            }
+            if ($config['depth'] > 0 && isset($config['items'])) {
+                yield from $this->getItems($config['items'], [...$parents, $name]);
+            }
+        }
+    }
+
+    /**
      * Determines if config has any siblings in list
      *
      * @param array $config
@@ -110,7 +131,7 @@ class UseFormatterService
                 if ($skip_name === $item['name'] || $item['depth'] > 1) {
                     continue;
                 }
-                if ($item['depth'] === 1 && count($item['items']) >= 2) {
+                if ($item['depth'] === 1 && isset($item['items']) && count($item['items']) >= 2) {
                     continue;
                 }
                 $has_sibling = true;
@@ -125,18 +146,13 @@ class UseFormatterService
      *
      * Goes to the end of each branch in the nested list and then determines the grouping and namespace of each statement.
      *
-     * @param array $list
-     * @param array $parents
+     * @param Generator<int, array> $items
      * @return array
      */
-    protected function buildStatements(array $list, array $parents = []): array
+    protected function buildStatements(Generator $items): array
     {
         $statements = [];
-        foreach ($list as $config) {
-            if ($config['depth'] > 0) {
-                $statements = array_merge($statements, $this->buildStatements($config['items'], [...$parents, $config['name']]));
-                continue;
-            }
+        foreach ($items as $config) {
             $pop = 0;
             if (isset($config['parent'])) {
                 $parent = $config['parent'];
@@ -152,16 +168,16 @@ class UseFormatterService
                     $pop = 1;
                 }
             }
-            $statement_parents = $parents;
+            $parents = $config['parents'];
             $name = $config['name'] . (isset($config['alias']) ? " as {$config['alias']}" : '');
             if ($pop > 0) {
                 while ($pop > 0) {
                     $pop--;
-                    $parent = array_pop($statement_parents);
+                    $parent = array_pop($parents);
                     $name = "{$parent}\\{$name}";
                 }
             }
-            $namespace = count($statement_parents) === 0 ? '--ROOT--' : implode('\\', $statement_parents);
+            $namespace = count($parents) === 0 ? '--ROOT--' : implode('\\', $parents);
             $statements[] = [$namespace, $name];
         }
         return $statements;
@@ -183,20 +199,20 @@ class UseFormatterService
             $statements[$namespace] ??= [];
             $statements[$namespace][] = $class;
         }
+        // handle any single class namespaces, necessary to get sorting order proper since we sort by keys
+        foreach ($statements as $namespace => $names) {
+            if ($namespace === '--ROOT--' || count($names) > 1) {
+                continue;
+            }
+            $statements["{$namespace}\\{$names[0]}"] = true;
+            unset($statements[$namespace]);
+        }
         // handle root level classes
         if (isset($statements['--ROOT--'])) {
             foreach ($statements['--ROOT--'] as $class) {
                 $statements[$class] = true;
             }
             unset($statements['--ROOT--']);
-        }
-        // handle any single class namespaces, necessary to get sorting order proper since we sort by keys
-        foreach ($statements as $namespace => $names) {
-            if (!is_array($names) || count($names) > 1) {
-                continue;
-            }
-            $statements["{$namespace}\\{$names[0]}"] = true;
-            unset($statements[$namespace]);
         }
         ksort($statements);
         // group single classes into non bracketed use statements
@@ -343,7 +359,7 @@ class UseFormatterService
                 continue;
             }
             $data = $this->assignDepths($data);
-            $data = $this->buildStatements($data);
+            $data = $this->buildStatements($this->getItems($data));
             $groups[] = $this->renderStatements($data, $type, $max_line_length);
         }
         return implode(str_repeat(PHP_EOL, 2), $groups) . PHP_EOL;
