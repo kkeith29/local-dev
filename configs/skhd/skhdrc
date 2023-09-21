@@ -1,0 +1,128 @@
+:: default
+
+:: yabai @
+:: yabai_focus @
+:: yabai_layout @
+:: yabai_goto @
+:: yabai_swap @
+:: yabai_move @
+:: yabai_control @
+
+:: skhd_control @
+
+:: firefox @
+
+# leader for yabai commands
+alt - space ; yabai
+
+# allow access to default mode from all other modes
+yabai, yabai_focus, yabai_layout, yabai_goto, yabai_swap, yabai_move, yabai_control, skhd_control, firefox < escape ; default
+
+# allow fallback one level
+yabai, skhd_control, firefox < return ; default
+yabai_focus, yabai_layout, yabai_goto, yabai_swap, yabai_move < return ; yabai
+
+# focus mode
+yabai < f ; yabai_focus
+
+# change window focus within space
+yabai_focus < j : yabai -m window --focus south
+yabai_focus < k : yabai -m window --focus north
+yabai_focus < h : yabai -m window --focus west
+yabai_focus < l : yabai -m window --focus east
+yabai_focus < 0x2B : yabai -m window --focus prev || yabai -m window --focus last
+yabai_focus < 0x2F : yabai -m window --focus next || yabai -m window --focus first
+yabai_focus < t : yabai -m window --focus recent; skhd -k "escape";
+
+#change focus between external displays (left and right)
+yabai_focus < shift - h: yabai -m display --focus west; skhd -k "escape";
+yabai_focus < shift - l: yabai -m display --focus east; skhd -k "escape";
+
+# layout mode
+yabai < l ; yabai_layout
+
+# rotate layout clockwise
+yabai_layout < r : yabai -m space --rotate 270
+
+# flip along y-axis
+yabai_layout < y : yabai -m space --mirror y-axis
+
+# flip along x-axis
+yabai_layout < x : yabai -m space --mirror x-axis
+
+# toggle window float
+yabai_layout < f : yabai -m window --toggle float --grid 4:4:1:1:2:2; skhd -k "escape";
+
+# maximize a window
+yabai_layout < z : yabai -m window --toggle zoom-fullscreen; skhd -k "escape";
+
+# balance out tree of windows (resize to occupy same area)
+yabai_layout < b : yabai -m space --balance; skhd -k "escape";
+
+# goto mode
+yabai < g ; yabai_goto
+
+# goto space shortcuts
+yabai_goto < c : yabai -m space --focus code; skhd -k "escape";
+yabai_goto < t : yabai -m space --focus terminal; skhd -k "escape";
+yabai_goto < b : yabai -m space --focus browser; skhd -k "escape";
+yabai_goto < d : yabai -m space --focus database; skhd -k "escape";
+yabai_goto < g : yabai -m space --focus git; skhd -k "escape";
+yabai_goto < n : yabai -m space --focus notes; skhd -k "escape";
+yabai_goto < m : yabai -m space --focus messaging; skhd -k "escape";
+yabai_goto < v : yabai -m space --focus vdi; skhd -k "escape";
+
+# swap mode
+yabai < s ; yabai_swap
+
+# swap windows
+yabai_swap < j : yabai -m window --swap south
+yabai_swap < k : yabai -m window --swap north
+yabai_swap < h : yabai -m window --swap west
+yabai_swap < l : yabai -m window --swap east
+
+# move window and split
+yabai_swap < shift - j : yabai -m window --warp south
+yabai_swap < shift - k : yabai -m window --warp north
+yabai_swap < shift - h : yabai -m window --warp west
+yabai_swap < shift - l : yabai -m window --warp east
+
+# move window mode
+yabai < m ; yabai_move
+
+# move window to display left and right
+yabai_move < h : yabai -m window --display west; yabai -m display --focus west; skhd -k "escape";
+yabai_move < l : yabai -m window --display east; yabai -m display --focus east; skhd -k "escape";
+
+# move window to space #
+yabai_move < c : yabai -m window --space code; skhd -k "escape";
+yabai_move < t : yabai -m window --space terminal; skhd -k "escape";
+yabai_move < b : yabai -m window --space browser; skhd -k "escape";
+yabai_move < d : yabai -m window --space database; skhd -k "escape";
+yabai_move < g : yabai -m window --space git; skhd -k "escape";
+yabai_move < n : yabai -m window --space notes; skhd -k "escape";
+yabai_move < m : yabai -m window --space messaging; skhd -k "escape";
+yabai_move < v : yabai -m window --space vdi; skhd -k "escape";
+
+# yabai control mode
+yabai < y ; yabai_control
+
+# stop/start/restart yabai
+yabai_control < q : yabai --stop-service; skhd -k "escape";
+yabai_control < s : yabai --start-service; skhd -k "escape";
+yabai_control < r : yabai --restart-service; skhd -k "escape";
+
+# skhd control mode
+alt - s ; skhd_control
+
+# stop/start/restart skhd
+skhd_control < q : skhd --stop-service
+skhd_control < s : skhd --start-service
+skhd_control < r : skhd --reload
+skhd_control < shift - r : skhd --restart-service
+
+# firefox mode
+alt - f ; firefox
+
+# open new tab with proper container
+firefox < 1 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=Personal&url=about:blank"; skhd -k "escape";
