@@ -20,6 +20,7 @@ set easymotion
 set vim-paragraph-motion
 set exchange
 set ideamarks
+set matchit
 
 " common settings
 set scrolloff=8
@@ -174,6 +175,7 @@ vmap <Leader>cc <Action>(CommentByLineComment)
 nmap <Leader>cm <Action>(Move)
 nmap <Leader>cr <Action>(RenameElement)
 vmap <Leader>cu :!ld-cli code:use-formatter<CR>
+nmap <Leader>cg :%!ld-cli code:generate %<CR>
 nmap <Leader>cs <Action>(FileStructurePopup)
 
 """ code running and debugging (prefix t = test)
