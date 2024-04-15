@@ -9,11 +9,6 @@ use Symfony\Component\Console\Input\{InputInterface, InputOption};
 use Symfony\Component\Console\Output\{ConsoleOutputInterface, OutputInterface};
 use Throwable;
 
-/**
- * Class UseFormatterCommand
- *
- * @package App\Commands\Code
- */
 #[AsCommand('code:use-formatter')]
 class UseFormatterCommand extends Command
 {

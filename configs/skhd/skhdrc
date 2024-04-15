@@ -26,13 +26,17 @@ yabai_focus, yabai_layout, yabai_goto, yabai_swap, yabai_move < return ; yabai
 yabai < f ; yabai_focus
 
 # change window focus within space
-yabai_focus < j : yabai -m window --focus south
-yabai_focus < k : yabai -m window --focus north
-yabai_focus < h : yabai -m window --focus west
-yabai_focus < l : yabai -m window --focus east
-yabai_focus < 0x2B : yabai -m window --focus prev || yabai -m window --focus last
-yabai_focus < 0x2F : yabai -m window --focus next || yabai -m window --focus first
-yabai_focus < t : yabai -m window --focus recent; skhd -k "escape";
+#yabai_focus < h : yabai -m window --focus west
+yabai_focus < h : ld-cli yabai:space-window-cycle prev
+#yabai_focus < l : yabai -m window --focus east
+yabai_focus < l : ld-cli yabai:space-window-cycle next
+# Key: ,/<
+yabai_focus < 0x2B : ld-cli yabai:space-window-cycle prev
+# Key: ./>
+yabai_focus < 0x2F : ld-cli yabai:space-window-cycle next
+yabai_focus < m : ld-cli yabai:space-window-minimize minimize
+yabai_focus < shift - m : ld-cli yabai:space-window-minimize deminimize
+#yabai_focus < t : yabai -m window --focus recent; skhd -k "escape";
 
 #change focus between external displays (left and right)
 yabai_focus < shift - h: yabai -m display --focus west; skhd -k "escape";
@@ -41,36 +45,33 @@ yabai_focus < shift - l: yabai -m display --focus east; skhd -k "escape";
 # layout mode
 yabai < l ; yabai_layout
 
-# rotate layout clockwise
-yabai_layout < r : yabai -m space --rotate 270
+# full screen
+yabai_layout < f : yabai -m window --grid 1:1:0:0:1:1; skhd -k "escape";
 
-# flip along y-axis
-yabai_layout < y : yabai -m space --mirror y-axis
+# center
+yabai_layout < c : yabai -m window --grid 4:4:1:1:2:2; skhd -k "escape";
 
-# flip along x-axis
-yabai_layout < x : yabai -m space --mirror x-axis
+# half
+yabai_layout < h : yabai -m window --grid 1:2:0:0:1:1
+yabai_layout < j : yabai -m window --grid 2:1:0:0:1:1
+yabai_layout < k : yabai -m window --grid 2:1:0:1:1:1
+yabai_layout < l : yabai -m window --grid 1:2:1:0:1:1
 
-# toggle window float
-yabai_layout < f : yabai -m window --toggle float --grid 4:4:1:1:2:2; skhd -k "escape";
+# third
 
-# maximize a window
-yabai_layout < z : yabai -m window --toggle zoom-fullscreen; skhd -k "escape";
-
-# balance out tree of windows (resize to occupy same area)
-yabai_layout < b : yabai -m space --balance; skhd -k "escape";
+# fourth
 
 # goto mode
 yabai < g ; yabai_goto
 
 # goto space shortcuts
-yabai_goto < c : yabai -m space --focus code; skhd -k "escape";
-yabai_goto < t : yabai -m space --focus terminal; skhd -k "escape";
-yabai_goto < b : yabai -m space --focus browser; skhd -k "escape";
-yabai_goto < d : yabai -m space --focus database; skhd -k "escape";
-yabai_goto < g : yabai -m space --focus git; skhd -k "escape";
-yabai_goto < n : yabai -m space --focus notes; skhd -k "escape";
-yabai_goto < m : yabai -m space --focus messaging; skhd -k "escape";
-yabai_goto < v : yabai -m space --focus vdi; skhd -k "escape";
+yabai_goto < c : ld-cli workspace:layer-select code; skhd -k "escape";
+yabai_goto < t : ld-cli workspace:layer-select terminal; skhd -k "escape";
+yabai_goto < d : ld-cli workspace:layer-select database; skhd -k "escape";
+yabai_goto < g : ld-cli workspace:layer-select git; skhd -k "escape";
+yabai_goto < b : ld-cli workspace:layer-select browser; skhd -k "escape";
+yabai_goto < m : ld-cli workspace:layer-select messaging; skhd -k "escape";
+yabai_goto < n : ld-cli workspace:layer-select notes; skhd -k "escape";
 
 # swap mode
 yabai < s ; yabai_swap
@@ -106,6 +107,9 @@ yabai_move < v : yabai -m window --space vdi; skhd -k "escape";
 
 # yabai control mode
 yabai < y ; yabai_control
+
+yabai_control < l : ld-cli workspace:init laptop; skhd -k "escape";
+yabai_control < o : ld-cli workspace:init office; skhd -k "escape";
 
 # stop/start/restart yabai
 yabai_control < q : yabai --stop-service; skhd -k "escape";

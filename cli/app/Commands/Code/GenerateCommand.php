@@ -4,23 +4,15 @@ namespace App\Commands\Code;
 
 use App\Services\CodeGeneratorService;
 use App\Services\CodeGenerator\Enums\FileType;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 use Symfony\Component\Console\Output\{ConsoleOutputInterface, OutputInterface};
 use Throwable;
 
-/**
- * Class GenerateCommand
- *
- * @package App\Commands\Code
- */
+#[AsCommand('code:generate')]
 class GenerateCommand extends Command
 {
-    /**
-     * @var string Name of command
-     */
-    protected static $defaultName = 'code:generate';
-
     /**
      * Configure command
      *

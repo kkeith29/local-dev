@@ -68,6 +68,9 @@ class CodeGeneratorService
             $directory = dirname($composer_file);
             $config = $this->getComposerConfig($composer_file);
             $psr4 = $config['autoload']['psr-4'] ?? [];
+            if (isset($config['autoload-dev']['psr-4'])) {
+                $psr4 = [...$psr4, ...$config['autoload-dev']['psr-4']];
+            }
             if (count($psr4) > 0) {
                 foreach ($psr4 as $namespace => $path) {
                     $psr4_path = $this->normalizePath($directory . DS . trim($path, DS));
