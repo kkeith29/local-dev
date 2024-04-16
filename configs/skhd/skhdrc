@@ -1,80 +1,77 @@
-:: default
-
-:: window @
-:: window_layout @
-:: window_goto @
-
-:: skhd_control @
-
-:: firefox @
-
-# leader for window commands
-alt - space ; window
+:: default        : sketchybar --set skhd_mode drawing=off
+:: root @         : sketchybar --set skhd_mode drawing=on icon=􀺑 label=...
+:: layout @       : sketchybar --set skhd_mode drawing=on icon=􀏜 label=Layout
+:: goto @         : sketchybar --set skhd_mode drawing=on icon=􀋒 label=Navigate
+:: skhd_control @ : sketchybar --set skhd_mode drawing=on icon=􀂹 label=SKHD
+:: firefox @      : sketchybar --set skhd_mode drawing=on icon=􀂟 label=Firefox
 
 # allow access to default mode from all other modes
-window, window_layout, window_goto, skhd_control, firefox < escape ; default
+root, layout, goto, skhd_control, firefox < escape ; default
 
 # allow fallback one level
-window, skhd_control, firefox < return ; default
-window_layout, window_goto < return ; window
+root < return ; default
+layout, goto, skhd_control, firefox < return ; root
+
+# leader for all bindings
+alt - space ; root
 
 # layout mode
-window < l ; window_layout
+root < l ; layout
 
 # full screen
-window_layout < m : open -g "rectangle://execute-action?name=maximize"; skhd -k "escape";
+layout < m : open -g "rectangle://execute-action?name=maximize"; skhd -k "escape";
 
 # center
-window_layout < c : open -g "rectangle://execute-action?name=center"; skhd -k "escape";
+layout < c : open -g "rectangle://execute-action?name=center"; skhd -k "escape";
 
 # half
-window_layout < h : open -g "rectangle://execute-action?name=left-half"
-window_layout < j : open -g "rectangle://execute-action?name=bottom-half"
-window_layout < k : open -g "rectangle://execute-action?name=top-half"
-window_layout < l : open -g "rectangle://execute-action?name=right-half"
+layout < h : open -g "rectangle://execute-action?name=left-half"
+layout < j : open -g "rectangle://execute-action?name=bottom-half"
+layout < k : open -g "rectangle://execute-action?name=top-half"
+layout < l : open -g "rectangle://execute-action?name=right-half"
 
 # third
-window_layout < s : open -g "rectangle://execute-action?name=first-third"
-window_layout < shift - s : open -g "rectangle://execute-action?name=first-two-thirds"
-window_layout < d : open -g "rectangle://execute-action?name=center-third"
-window_layout < f : open -g "rectangle://execute-action?name=last-third"
-window_layout < shift - f : open -g "rectangle://execute-action?name=last-two-thirds"
+layout < s : open -g "rectangle://execute-action?name=first-third"
+layout < shift - s : open -g "rectangle://execute-action?name=first-two-thirds"
+layout < d : open -g "rectangle://execute-action?name=center-third"
+layout < f : open -g "rectangle://execute-action?name=last-third"
+layout < shift - f : open -g "rectangle://execute-action?name=last-two-thirds"
 
 # fourth
-window_layout < shift - h : open -g "rectangle://execute-action?name=top-left"
-window_layout < shift - j : open -g "rectangle://execute-action?name=bottom-left"
-window_layout < shift - k : open -g "rectangle://execute-action?name=top-right"
-window_layout < shift - l : open -g "rectangle://execute-action?name=bottom-right"
+layout < shift - h : open -g "rectangle://execute-action?name=top-left"
+layout < shift - j : open -g "rectangle://execute-action?name=bottom-left"
+layout < shift - k : open -g "rectangle://execute-action?name=top-right"
+layout < shift - l : open -g "rectangle://execute-action?name=bottom-right"
 
 # move displays
 # Key: ,/<
-window_layout < 0x2B : open -g "rectangle://execute-action?name=previous-display"
+layout < 0x2B : open -g "rectangle://execute-action?name=previous-display"
 # Key: ./>
-window_layout < 0x2F : open -g "rectangle://execute-action?name=next-display"
+layout < 0x2F : open -g "rectangle://execute-action?name=next-display"
 
 # goto mode
-window < g ; window_goto
+root < g ; goto
 
 # goto space shortcuts
 # c = code
-window_goto < c : open -a PhpStorm; skhd -k "escape";
+goto < c : open -a PhpStorm; skhd -k "escape";
 # t = terminal
-window_goto < t : open -a iTerm; skhd -k "escape";
+goto < t : open -a iTerm; skhd -k "escape";
 # d = database
-window_goto < d : open -a "Sequel Ace"; skhd -k "escape";
+goto < d : open -a "Sequel Ace"; skhd -k "escape";
 # g = git
-window_goto < g : open -a Fork; skhd -k "escape";
+goto < g : open -a Fork; skhd -k "escape";
 # b = browser
-window_goto < b : open -a Firefox; skhd -k "escape";
+goto < b : open -a Firefox; skhd -k "escape";
 # m = messaging
-window_goto < m : open -a Slack; skhd -k "escape";
+goto < m : open -a Slack; skhd -k "escape";
 # e = email
-window_goto < e : open -a Mail; skhd -k "escape";
+goto < e : open -a Mail; skhd -k "escape";
 # n = notes
-window_goto < n : open -a Obsidian; skhd -k "escape";
+goto < n : open -a Obsidian; skhd -k "escape";
 
 # skhd control mode
-alt - s ; skhd_control
+root < s ; skhd_control
 
 # stop/start/restart skhd
 skhd_control < q : skhd --stop-service
@@ -83,7 +80,9 @@ skhd_control < r : skhd --reload
 skhd_control < shift - r : skhd --restart-service
 
 # firefox mode
-alt - f ; firefox
+root < f ; firefox
 
 # open new tab with proper container
-firefox < 1 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=Personal&url=about:blank"; skhd -k "escape";
+firefox < 1 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_1&url=https://google.com"; skhd -k "escape";
+firefox < 2 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_2&url=https://google.com"; skhd -k "escape";
+firefox < 3 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_3&url=https://google.com"; skhd -k "escape";
