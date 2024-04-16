@@ -1,120 +1,77 @@
 :: default
 
-:: yabai @
-:: yabai_focus @
-:: yabai_layout @
-:: yabai_goto @
-:: yabai_swap @
-:: yabai_move @
-:: yabai_control @
+:: window @
+:: window_layout @
+:: window_goto @
 
 :: skhd_control @
 
 :: firefox @
 
-# leader for yabai commands
-alt - space ; yabai
+# leader for window commands
+alt - space ; window
 
 # allow access to default mode from all other modes
-yabai, yabai_focus, yabai_layout, yabai_goto, yabai_swap, yabai_move, yabai_control, skhd_control, firefox < escape ; default
+window, window_layout, window_goto, skhd_control, firefox < escape ; default
 
 # allow fallback one level
-yabai, skhd_control, firefox < return ; default
-yabai_focus, yabai_layout, yabai_goto, yabai_swap, yabai_move < return ; yabai
-
-# focus mode
-yabai < f ; yabai_focus
-
-# change window focus within space
-#yabai_focus < h : yabai -m window --focus west
-yabai_focus < h : ld-cli yabai:space-window-cycle prev
-#yabai_focus < l : yabai -m window --focus east
-yabai_focus < l : ld-cli yabai:space-window-cycle next
-# Key: ,/<
-yabai_focus < 0x2B : ld-cli yabai:space-window-cycle prev
-# Key: ./>
-yabai_focus < 0x2F : ld-cli yabai:space-window-cycle next
-yabai_focus < m : ld-cli yabai:space-window-minimize minimize
-yabai_focus < shift - m : ld-cli yabai:space-window-minimize deminimize
-#yabai_focus < t : yabai -m window --focus recent; skhd -k "escape";
-
-#change focus between external displays (left and right)
-yabai_focus < shift - h: yabai -m display --focus west; skhd -k "escape";
-yabai_focus < shift - l: yabai -m display --focus east; skhd -k "escape";
+window, skhd_control, firefox < return ; default
+window_layout, window_goto < return ; window
 
 # layout mode
-yabai < l ; yabai_layout
+window < l ; window_layout
 
 # full screen
-yabai_layout < f : yabai -m window --grid 1:1:0:0:1:1; skhd -k "escape";
+window_layout < m : open -g "rectangle://execute-action?name=maximize"; skhd -k "escape";
 
 # center
-yabai_layout < c : yabai -m window --grid 4:4:1:1:2:2; skhd -k "escape";
+window_layout < c : open -g "rectangle://execute-action?name=center"; skhd -k "escape";
 
 # half
-yabai_layout < h : yabai -m window --grid 1:2:0:0:1:1
-yabai_layout < j : yabai -m window --grid 2:1:0:0:1:1
-yabai_layout < k : yabai -m window --grid 2:1:0:1:1:1
-yabai_layout < l : yabai -m window --grid 1:2:1:0:1:1
+window_layout < h : open -g "rectangle://execute-action?name=left-half"
+window_layout < j : open -g "rectangle://execute-action?name=bottom-half"
+window_layout < k : open -g "rectangle://execute-action?name=top-half"
+window_layout < l : open -g "rectangle://execute-action?name=right-half"
 
 # third
+window_layout < s : open -g "rectangle://execute-action?name=first-third"
+window_layout < shift - s : open -g "rectangle://execute-action?name=first-two-thirds"
+window_layout < d : open -g "rectangle://execute-action?name=center-third"
+window_layout < f : open -g "rectangle://execute-action?name=last-third"
+window_layout < shift - f : open -g "rectangle://execute-action?name=last-two-thirds"
 
 # fourth
+window_layout < shift - h : open -g "rectangle://execute-action?name=top-left"
+window_layout < shift - j : open -g "rectangle://execute-action?name=bottom-left"
+window_layout < shift - k : open -g "rectangle://execute-action?name=top-right"
+window_layout < shift - l : open -g "rectangle://execute-action?name=bottom-right"
+
+# move displays
+# Key: ,/<
+window_layout < 0x2B : open -g "rectangle://execute-action?name=previous-display"
+# Key: ./>
+window_layout < 0x2F : open -g "rectangle://execute-action?name=next-display"
 
 # goto mode
-yabai < g ; yabai_goto
+window < g ; window_goto
 
 # goto space shortcuts
-yabai_goto < c : ld-cli workspace:layer-select code; skhd -k "escape";
-yabai_goto < t : ld-cli workspace:layer-select terminal; skhd -k "escape";
-yabai_goto < d : ld-cli workspace:layer-select database; skhd -k "escape";
-yabai_goto < g : ld-cli workspace:layer-select git; skhd -k "escape";
-yabai_goto < b : ld-cli workspace:layer-select browser; skhd -k "escape";
-yabai_goto < m : ld-cli workspace:layer-select messaging; skhd -k "escape";
-yabai_goto < n : ld-cli workspace:layer-select notes; skhd -k "escape";
-
-# swap mode
-yabai < s ; yabai_swap
-
-# swap windows
-yabai_swap < j : yabai -m window --swap south
-yabai_swap < k : yabai -m window --swap north
-yabai_swap < h : yabai -m window --swap west
-yabai_swap < l : yabai -m window --swap east
-
-# move window and split
-yabai_swap < shift - j : yabai -m window --warp south
-yabai_swap < shift - k : yabai -m window --warp north
-yabai_swap < shift - h : yabai -m window --warp west
-yabai_swap < shift - l : yabai -m window --warp east
-
-# move window mode
-yabai < m ; yabai_move
-
-# move window to display left and right
-yabai_move < h : yabai -m window --display west; yabai -m display --focus west; skhd -k "escape";
-yabai_move < l : yabai -m window --display east; yabai -m display --focus east; skhd -k "escape";
-
-# move window to space #
-yabai_move < c : yabai -m window --space code; skhd -k "escape";
-yabai_move < t : yabai -m window --space terminal; skhd -k "escape";
-yabai_move < b : yabai -m window --space browser; skhd -k "escape";
-yabai_move < d : yabai -m window --space database; skhd -k "escape";
-yabai_move < g : yabai -m window --space git; skhd -k "escape";
-yabai_move < n : yabai -m window --space notes; skhd -k "escape";
-yabai_move < m : yabai -m window --space messaging; skhd -k "escape";
-yabai_move < v : yabai -m window --space vdi; skhd -k "escape";
-
-# yabai control mode
-yabai < y ; yabai_control
-
-yabai_control < l : ld-cli workspace:init laptop; skhd -k "escape";
-yabai_control < o : ld-cli workspace:init office; skhd -k "escape";
-
-# stop/start/restart yabai
-yabai_control < q : yabai --stop-service; skhd -k "escape";
-yabai_control < s : yabai --start-service; skhd -k "escape";
-yabai_control < r : yabai --restart-service; skhd -k "escape";
+# c = code
+window_goto < c : open -a PhpStorm; skhd -k "escape";
+# t = terminal
+window_goto < t : open -a iTerm; skhd -k "escape";
+# d = database
+window_goto < d : open -a "Sequel Ace"; skhd -k "escape";
+# g = git
+window_goto < g : open -a Fork; skhd -k "escape";
+# b = browser
+window_goto < b : open -a Firefox; skhd -k "escape";
+# m = messaging
+window_goto < m : open -a Slack; skhd -k "escape";
+# e = email
+window_goto < e : open -a Mail; skhd -k "escape";
+# n = notes
+window_goto < n : open -a Obsidian; skhd -k "escape";
 
 # skhd control mode
 alt - s ; skhd_control
