@@ -2,8 +2,8 @@
 
 namespace App\Commands\Code;
 
-use App\Services\UseFormatterService;
 use Exception;
+use LiquidAwesome\CsFixer\Services\UseFormatterService;
 use Symfony\Component\Console\{Attribute\AsCommand, Command\Command};
 use Symfony\Component\Console\Input\{InputInterface, InputOption};
 use Symfony\Component\Console\Output\{ConsoleOutputInterface, OutputInterface};
@@ -12,9 +12,6 @@ use Throwable;
 #[AsCommand('code:use-formatter')]
 class UseFormatterCommand extends Command
 {
-    /**
-     * Configure options for command
-     */
     protected function configure(): void
     {
         $this->addOption('max-line-length', null, InputOption::VALUE_REQUIRED, default: 120);
@@ -22,18 +19,12 @@ class UseFormatterCommand extends Command
         $this->addOption('max-group-depth', null, InputOption::VALUE_REQUIRED, default: 2);
     }
 
-    /**
-     * Execute command
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $data = stream_get_contents(STDIN);
         try {
             $use_formatter = new UseFormatterService();
+            $use_formatter->addStatementsFromCodeBlock($data);
             $max_line_length = (int) $input->getOption('max-line-length');
             if ($max_line_length <= 0) {
                 throw new Exception('Max line length must be a number greater than 0');
@@ -46,7 +37,11 @@ class UseFormatterCommand extends Command
             if ($max_group_depth <= 0) {
                 throw new Exception('Max group depth must be a number greater than 0');
             }
-            $output->write($use_formatter->format($data, $max_line_length, $min_sibling_group_count, $max_group_depth));
+            $output->write($use_formatter->getCode(
+                max_line_length: $max_line_length,
+                min_sibling_group_count:  $min_sibling_group_count,
+                max_group_depth: $max_group_depth
+            ) . PHP_EOL);
             return Command::SUCCESS;
         } catch (Throwable $e) {
             if ($output instanceof ConsoleOutputInterface) {

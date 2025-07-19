@@ -7,18 +7,10 @@ use Exception;
 
 use const DIRECTORY_SEPARATOR as DS;
 
-/**
- * Class CodeGeneratorService
- * 
- * @package App\Services
- */
 class CodeGeneratorService
 {
     /**
-     * Find closest composer.json file to directory
-     *
-     * @param string $directory
-     * @return null|string
+     * Find the closest composer.json file to directory
      */
     protected function getClosestComposerConfigFile(string $directory): ?string
     {
@@ -37,8 +29,7 @@ class CodeGeneratorService
     /**
      * Read and parse composer.json file
      *
-     * @param string $file
-     * @return array
+     * @return array<string, mixed>
      * @throws \Exception
      */
     protected function getComposerConfig(string $file): array
@@ -56,7 +47,6 @@ class CodeGeneratorService
     /**
      * Get type name and namespace if found from file path 
      *
-     * @param string $file_path
      * @return array{0: string, 1: string|null}
      * @throws \Exception
      */
@@ -92,9 +82,6 @@ class CodeGeneratorService
 
     /**
      * Normalize path by removing unnecessary parts and resolving symlinks
-     *
-     * @param string $path
-     * @return string
      */
     protected function normalizePath(string $path): string
     {
@@ -126,9 +113,6 @@ class CodeGeneratorService
      *
      * If no file type is passed, it is determined based on the file path
      *
-     * @param string $file_path
-     * @param null|\App\Services\CodeGenerator\Enums\FileType $type
-     * @return string
      * @throws \Exception
      */
     public function generate(string $file_path, ?FileType $type = null): string

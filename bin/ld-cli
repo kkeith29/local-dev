@@ -5,21 +5,12 @@ date_default_timezone_set('UTC');
 
 const DS = DIRECTORY_SEPARATOR;
 const PATH_ROOT = __DIR__ . DS . '..' . DS . 'cli' . DS;
-const PATH_CONFIG = PATH_ROOT . 'config' . DS;
 const PATH_RESOURCE = PATH_ROOT . 'resources' . DS;
 const PATH_VENDOR = PATH_ROOT . 'vendor' . DS;
 
 require PATH_VENDOR . 'autoload.php';
 
-use App\Commands\Code\{
-    GenerateCommand,
-    UseFormatterCommand,
-    WorkspaceLayerSelectCommand,
-    WorkspaceCommand,
-    YabaiAppActivatedCommand,
-    YabaiSpaceWindowCycleCommand,
-    YabaiSpaceWindowMinimizeCommand
-};
+use App\Commands\Code\{GenerateCommand, UseFormatterCommand};
 use Dotenv\Dotenv;
 use Symfony\Component\Console\Application;
 
@@ -33,10 +24,5 @@ $application = new Application();
 
 $application->add(new UseFormatterCommand());
 $application->add(new GenerateCommand());
-$application->add(new YabaiAppActivatedCommand());
-//$application->add(new YabaiSpaceWindowCycleCommand());
-//$application->add(new YabaiSpaceWindowMinimizeCommand());
-$application->add(new WorkspaceCommand());
-$application->add(new WorkspaceLayerSelectCommand());
 
 $application->run();

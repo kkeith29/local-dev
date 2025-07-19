@@ -4,8 +4,7 @@ namespace App\Commands\Code;
 
 use App\Services\CodeGeneratorService;
 use App\Services\CodeGenerator\Enums\FileType;
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\{Attribute\AsCommand, Command\Command};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 use Symfony\Component\Console\Output\{ConsoleOutputInterface, OutputInterface};
 use Throwable;
@@ -14,9 +13,6 @@ use Throwable;
 class GenerateCommand extends Command
 {
     /**
-     * Configure command
-     *
-     * @return void
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
     public function configure(): void
@@ -25,13 +21,6 @@ class GenerateCommand extends Command
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of file to generate');
     }
 
-    /**
-     * Execute command
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $file_path = $input->getArgument('file_path');

@@ -4,11 +4,6 @@ namespace App\Services\CodeGenerator\Enums;
 
 use const DIRECTORY_SEPARATOR as DS;
 
-/**
- * Enum FileType
- *
- * @package App\Services\CodeGenerator\Enums
- */
 enum FileType: string
 {
     case FIL = 'file';
@@ -25,9 +20,6 @@ enum FileType: string
 
     /**
      * Determine file type from file path
-     *
-     * @param string $path
-     * @return \App\Services\CodeGenerator\Enums\FileType
      */
     public static function fromFilePath(string $path): self
     {
@@ -58,8 +50,6 @@ enum FileType: string
 
     /**
      * Get template path for file type
-     *
-     * @return string
      */
     public function getTemplatePath(): string
     {
@@ -76,8 +66,6 @@ enum FileType: string
 
     /**
      * Get template vars for type
-     *
-     * @return array
      */
     public function getTemplateVars(): array
     {

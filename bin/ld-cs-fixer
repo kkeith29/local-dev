@@ -1,0 +1,5 @@
+#!/bin/bash
+
+BASEPATH="$(dirname $(dirname $(realpath "$0")))/cli"
+
+${BASEPATH}/vendor/bin/php-cs-fixer --config="$BASEPATH/.php_cs.php" "$@"
