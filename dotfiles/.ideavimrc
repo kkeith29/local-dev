@@ -21,6 +21,7 @@ set vim-paragraph-motion
 set exchange
 set ideamarks
 set matchit
+set multiple-cursors
 
 " common settings
 set scrolloff=8
@@ -74,6 +75,18 @@ inoremap <c-j> <Down>
 inoremap <c-k> <Up>
 nmap s <Plug>(easymotion-sn)
 
+# multi-cursors bindings
+nmap mc <Plug>NextWholeOccurrence
+xmap mc <Plug>NextWholeOccurrence
+nmap mC <Plug>NextOccurrence
+xmap mC <Plug>NextOccurrence
+xmap mx <Plug>SkipOccurrence
+xmap mp <Plug>RemoveOccurrence
+nmap ma <Plug>AllWholeOccurrences
+xmap ma <Plug>AllWholeOccurrences
+nmap mA <Plug>AllOccurrences
+xmap mA <Plug>AllOccurrences
+
 " update actions to not change buffer
 nnoremap c "_c
 vnoremap c "_c
@@ -82,6 +95,7 @@ nnoremap d "_d
 vnoremap d "_d
 nnoremap D "_D
 vnoremap D "_D
+xnoremap p P
 
 " highlight selection again after ident
 vnoremap < <gv
@@ -147,6 +161,7 @@ nmap <Leader>es <Action>(ActivateServicesToolWindow)
 nmap <Leader>el <Action>(JumpToLastWindow)
 nmap <Leader>eq <Action>(Jdbc.OpenConsole.Any)
 nmap <Leader>z <Action>(ToggleDistractionFreeMode)
+nmap <Leader>k <Action>(ShowHoverInfo)
 
 """ project actions
 nmap <Leader>po <Action>(OpenFile)
@@ -177,6 +192,13 @@ nmap <Leader>cr <Action>(RenameElement)
 vmap <Leader>cu :!ld-cli code:use-formatter<CR>
 nmap <Leader>cg :%!ld-cli code:generate %<CR>
 nmap <Leader>cs <Action>(FileStructurePopup)
+
+""" string manipulation
+vmap <Leader>cs <Action>(StringManipulation.ToSnakeCase)
+vmap <Leader>cS <Action>(StringManipulation.ToScreamingSnakeCase)
+vmap <Leader>ck <Action>(StringManipulation.ToKebabCase)
+vmap <Leader>cC <Action>(StringManipulation.ToCamelCase)
+vmap <Leader>cP <Action>(StringManipulation.ToPascalCase)
 
 """ code running and debugging (prefix t = test)
 nmap <Leader>tc <Action>(ContextRun)
@@ -209,3 +231,6 @@ nmap <Leader>rq <Action>(Console.Jdbc.Execute)
 """ version control
 nmap <Leader>va <Action>(Git.Add)
 nmap <Leader>vb <Action>(Annotate)
+nmap <Leader>vn <Action>(VcsShowNextChangeMarker)
+nmap <Leader>vN <Action>(VcsShowPrevChangeMarker)
+nmap <Leader>vr <Action>(Vcs.RollbackChangedLines)

@@ -4,13 +4,14 @@
 :: goto @         : sketchybar --set skhd_mode drawing=on icon=􀋒 label=Navigate
 :: skhd_control @ : sketchybar --set skhd_mode drawing=on icon=􀂹 label=SKHD
 :: firefox @      : sketchybar --set skhd_mode drawing=on icon=􀂟 label=Firefox
+:: app            : sketchybar --set skhd_mode drawing=on icon=􀑋 label=App
 
 # allow access to default mode from all other modes
-root, layout, goto, skhd_control, firefox < escape ; default
+root, layout, goto, skhd_control, firefox, app < escape ; default
 
 # allow fallback one level
 root < return ; default
-layout, goto, skhd_control, firefox < return ; root
+layout, goto, skhd_control, firefox, app < return ; root
 
 # leader for all bindings
 alt - space ; root
@@ -69,6 +70,8 @@ goto < m : open -a Slack; skhd -k "escape";
 goto < e : open -a Mail; skhd -k "escape";
 # n = notes
 goto < n : open -a Obsidian; skhd -k "escape";
+# s = spotify
+goto < s : open -a Spotify; skhd -k "escape";
 
 # skhd control mode
 root < s ; skhd_control
@@ -79,10 +82,50 @@ skhd_control < s : skhd --start-service
 skhd_control < r : skhd --reload
 skhd_control < shift - r : skhd --restart-service
 
-# firefox mode
-root < f ; firefox
+# app mode
+root < a ; app
 
 # open new tab with proper container
-firefox < 1 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_1&url=https://google.com"; skhd -k "escape";
-firefox < 2 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_2&url=https://google.com"; skhd -k "escape";
-firefox < 3 : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_3&url=https://google.com"; skhd -k "escape";
+app < 1 [
+    "firefox" : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_1&url=https://google.com"; skhd -k "escape";
+]
+app < 2 [
+    "firefox" : /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_2&url=https://google.com"; skhd -k "escape";
+]
+app < 3 [
+    "firefox": /Applications/Firefox.app/Contents/MacOS/firefox --new-tab --url="ext+container:name=$FIREFOX_CONTAINER_3&url=https://google.com"; skhd -k "escape";
+]
+
+# stage file
+app < h [
+    # stop program
+    "phpstorm" : skhd -k "cmd - f2"
+]
+app < j [
+    "fork" : skhd -k "down"
+    # debug step over
+    "phpstorm" : skhd -k "f8"
+]
+app < shift - j [
+    # debug step into
+    "phpstorm" : skhd -k "f7"
+]
+app < k [
+    "fork": skhd -k "up"
+    # debug step out
+    "phpstorm" : skhd -k "shift - f8"
+]
+app < l [
+    # stage file
+    "fork" : skhd -k "cmd - s"
+    # resume program
+    "phpstorm" : skhd -k "cmd + alt - r"
+]
+app < i [
+    # evaluate expression
+    "phpstorm" : skhd -k "alt - f8"; skhd -k "escape";
+]
+app < o [
+    # open file
+    "fork" : skhd -k "alt + shift + cmd - o"; skhd -k "escape";
+]
