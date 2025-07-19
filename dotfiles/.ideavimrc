@@ -48,6 +48,11 @@ let g:argtextobj_pairs="[:],(:),<:>"
 
 let g:highlightedyank_highlight_duration = 500
 
+""" commands
+command! CleanupImports :'<,'>!ld-cli code:use-formatter
+command! GenerateCode :%!ld-cli code:generate %
+command! FixCode :!ld-cs-fixer fix %
+
 """ key mappings
 
 " easy control over ideavimrc file
@@ -189,8 +194,9 @@ nmap <Leader>cc <Action>(CommentByLineComment)
 vmap <Leader>cc <Action>(CommentByLineComment)
 nmap <Leader>cm <Action>(Move)
 nmap <Leader>cr <Action>(RenameElement)
-vmap <Leader>cu :!ld-cli code:use-formatter<CR>
-nmap <Leader>cg :%!ld-cli code:generate %<CR>
+vmap <Leader>cu :CleanupImports<CR>
+nmap <Leader>cg :GenerateCode<CR>
+nmap <Leader>cf <Action>(SaveAll)<bar>:FixCode<CR><bar><Action>(Synchronize)
 nmap <Leader>cs <Action>(FileStructurePopup)
 
 """ string manipulation

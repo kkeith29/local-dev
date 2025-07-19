@@ -51,6 +51,7 @@ cd /path/to/local-dev/cli && composer install
 ### Symlink bin files
 ```bash
 ln -s /path/to/local-dev/bin/ld-cli ~/.bin/ld-cli
+ln -s /path/to/local-dev/bin/ld-cs-fixer ~/.bin/ld-cs-fixer
 ```
 
 ### Symlink dotfiles
@@ -65,8 +66,18 @@ brew bundle install
 ```
 
 ## Usage
+
+### Use Statement Cleanup
 The CLI tool comes with a command to format use blocks in PHP code utilizing ideavim's ability to pipe selected text to 
 an external program. PHPStorms default use formatting doesn't handle PSR-12 2 level nesting well and just doesn't 
 always know how to properly order things.
 
 Within the editor, highlight the use block and press `<space>cu`. If not using VIM bindings, then type `:!ld-cli code:use-formatter`
+
+### Code Style Fixer
+An opinionated version of PHP-CS-Fixer is globally available via the `ld-cs-fixer` command. This comes preconfigured and just 
+passes arguments directly to the php-cs-fixer binary. It is meant for quick clean up of a file. Larger projects shouldn't
+depend on this.
+
+You can run `ld-cs-fixer` for a specific file within IdeaVim using `<space>cf` command. If not using VIM bindings, use 
+`:!ld-cs-fixer fix %`
